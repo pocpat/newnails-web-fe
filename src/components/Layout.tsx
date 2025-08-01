@@ -1,10 +1,10 @@
-import MainHeader from './MainHeader';
+import Header from './Header';
 import Footer from './Footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <MainHeader />
+      <Header />
       <main>{children}</main>
       <Footer />
     </>

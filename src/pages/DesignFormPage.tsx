@@ -166,7 +166,7 @@ const DesignFormPage = () => {
       const imageUrls = results.flatMap(result => result.imageUrls);
 
       setLoading(false);
-      navigate('/results', { state: { generatedImages: imageUrls } });
+      navigate('/results', { state: { generatedImages: imageUrls, prompt: prompt } });
 
     } catch (error: any) {
       setLoading(false);
@@ -219,7 +219,7 @@ const DesignFormPage = () => {
 
   return (
     <div style={styles.background}>
-      <div ref={scrollViewRef} style={styles.scrollViewContainer}>
+      <div ref={scrollViewRef} >
         <h1 style={styles.title}>Create Your Masterpiece</h1>
         <SelectorRow title="Nail Length" options={lengthOptions} onSelect={(value) => handleSelect(setSelectedLength, value, 'shape')} selectedValue={selectedLength} style={activeSection === 'length' ? styles.activeSection : styles.inactiveSection} isActive={activeSection === 'length'} />
         <SelectorRow title="Nail Shape" options={shapeOptions} onSelect={(value) => handleSelect(setSelectedShape, value, 'style')} selectedValue={selectedShape} style={activeSection === 'shape' ? styles.activeSection : styles.inactiveSection} isActive={activeSection === 'shape'} />

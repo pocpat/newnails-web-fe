@@ -1,26 +1,28 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'; // Default to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+console.log('Using API_BASE_URL:', API_BASE_URL);
 
 // Assuming firebase.ts will be created and configured for web in the same directory
 import { auth } from './firebase';
 
-async function fetchWithAuth(url: string, options?: RequestInit) {
+async function fetchWithAuth(url: string, options: RequestInit = {}) {
   const user = auth.currentUser;
   let token = null;
-  console.log('fetchWithAuth: auth.currentUser:', auth.currentUser);
   if (user) {
-    token = await user.getIdToken(true); // Force a token refresh
-    console.log('Firebase Token Status:', token ? 'Token successfully retrieved' : 'Token is null');
-  } else {
-    console.log('No Firebase user found (auth.currentUser is null).');
+    token = await user.getIdToken();
   }
 
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` }),
-    ...options?.headers,
-  };
+  const headers: Record<string, string> = { ...options.headers };
 
-  console.log('fetchWithAuth: Headers being sent:', headers);
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  // Only add Content-Type if there is a body
+  if (options.body) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   const response = await fetch(`${API_BASE_URL}${url}`, { ...options, headers });
 
   if (!response.ok) {
@@ -28,7 +30,9 @@ async function fetchWithAuth(url: string, options?: RequestInit) {
     throw new Error(errorData.error || 'Something went wrong');
   }
 
-  return response.json();
+  // Handle cases where the response might be empty
+  const text = await response.text();
+  return text ? JSON.parse(text) : {};
 }
 
 export async function generateDesigns(designOptions: {
@@ -61,11 +65,13 @@ export async function getMyDesigns() {
 export async function deleteDesign(designId: string) {
   return fetchWithAuth(`/api/designs/${designId}`, {
     method: 'DELETE',
+    body: undefined, // Explicitly set body to undefined for this bodyless request
   });
 }
 
 export async function toggleFavorite(designId: string) {
   return fetchWithAuth(`/api/designs/${designId}/favorite`, {
     method: 'PATCH',
+    body: JSON.stringify({}), // Send an empty JSON object for PATCH requests
   });
 }
