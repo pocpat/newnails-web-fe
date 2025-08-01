@@ -9,21 +9,25 @@ async function fetchWithAuth(url: string, options: RequestInit = {}) {
   const user = auth.currentUser;
   let token = null;
   if (user) {
-    token = await user.getIdToken();
+    token = await user.getIdToken(true); // Force a token refresh
   }
 
-  const headers: Record<string, string> = { ...options.headers };
+  // Correctly initialize Headers object to avoid type errors
+  const headers = new Headers(options.headers);
 
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers.set('Authorization', `Bearer ${token}`);
   }
 
-  // Only add Content-Type if there is a body
-  if (options.body) {
-    headers['Content-Type'] = 'application/json';
+  // Only add Content-Type if there is a body and it's not already set
+  if (options.body && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
   }
 
-  const response = await fetch(`${API_BASE_URL}${url}`, { ...options, headers });
+  const response = await fetch(`${API_BASE_URL}${url}`, {
+    ...options,
+    headers, // Use the correctly constructed Headers object
+  });
 
   if (!response.ok) {
     const errorData = await response.json();
@@ -65,13 +69,11 @@ export async function getMyDesigns() {
 export async function deleteDesign(designId: string) {
   return fetchWithAuth(`/api/designs/${designId}`, {
     method: 'DELETE',
-    body: undefined, // Explicitly set body to undefined for this bodyless request
   });
 }
 
 export async function toggleFavorite(designId: string) {
   return fetchWithAuth(`/api/designs/${designId}/favorite`, {
-    method: 'PATCH',
-    body: JSON.stringify({}), // Send an empty JSON object for PATCH requests
+    method: 'PATCH', // No body, which is the correct fix.
   });
 }

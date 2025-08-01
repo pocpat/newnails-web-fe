@@ -9,6 +9,14 @@ interface Design {
   createdAt: string;
 }
 
+interface ApiDesign {
+  _id: string;
+  imageUrl: string;
+  prompt: string;
+  isFavorite?: boolean;
+  createdAt: string;
+}
+
 const MyDesignsPage = () => {
   const [designs, setDesigns] = useState<Design[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,10 +27,10 @@ const MyDesignsPage = () => {
     const fetchDesigns = async () => {
       try {
         setLoading(true);
-        const fetchedDesigns = await getMyDesigns();
+        const fetchedDesigns: ApiDesign[] = await getMyDesigns();
         
         // The API sends 'imageUrl', and we map '_id' to 'id' for consistency.
-        const formattedDesigns = fetchedDesigns.map(design => ({
+        const formattedDesigns = fetchedDesigns.map((design: ApiDesign) => ({
           id: design._id,
           imageUrl: design.imageUrl, // Use the correct property from the API
           prompt: design.prompt,
@@ -50,6 +58,8 @@ const MyDesignsPage = () => {
   }, [designs, sortOrder]);
 
   const handleToggleFavorite = async (designId: string) => {
+    const originalDesigns = designs;
+    // Optimistically update the UI
     setDesigns(prevDesigns =>
       prevDesigns.map(d =>
         d.id === designId ? { ...d, isFavorite: !d.isFavorite } : d
@@ -58,11 +68,8 @@ const MyDesignsPage = () => {
     try {
       await toggleFavorite(designId);
     } catch (error) {
-      setDesigns(prevDesigns =>
-        prevDesigns.map(d =>
-          d.id === designId ? { ...d, isFavorite: !d.isFavorite } : d
-        )
-      );
+      // Revert the UI if the API call fails
+      setDesigns(originalDesigns);
       alert('Failed to update favorite status.');
     }
   };
