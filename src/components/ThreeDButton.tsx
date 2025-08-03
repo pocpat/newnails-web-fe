@@ -5,6 +5,7 @@ interface ThreeDButtonProps {
   title: string;
   disabled?: boolean;
   loading?: boolean;
+  backgroundColor?: string;
 }
 
 const Colors = {
@@ -14,18 +15,20 @@ const Colors = {
   indigo: '#4B0082',
 };
 
-const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, loading }) => {
+const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, loading, backgroundColor }) => {
+  const buttonColor = backgroundColor || Colors.solidTeal;
+
   const styles: { [key: string]: React.CSSProperties } = {
     buttonContainer: {
       display: 'block',
-      margin: '30px auto 0 auto', // Center the button
+      margin: '30px auto 0 auto',
       borderRadius: '30px',
-      backgroundColor: Colors.solidTeal, // Base color for the button
-      boxShadow: `6px 6px 10px ${Colors.mediumGray}`, // Darker shadow for depth
+      backgroundColor: buttonColor,
+      boxShadow: `6px 6px 10px ${Colors.mediumGray}`,
       cursor: disabled || loading ? 'not-allowed' : 'pointer',
       border: 'none',
       outline: 'none',
-      padding: 0, // Remove default button padding
+      padding: 0,
     },
     disabledButton: {
       opacity: 0.6,
@@ -33,8 +36,8 @@ const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, l
     buttonInner: {
       padding: '15px 40px',
       borderRadius: '30px',
-      backgroundColor: Colors.solidTeal, // Inner surface color
-      boxShadow: `-6px -6px 10px ${Colors.white}`, // Lighter shadow for highlight
+      backgroundColor: buttonColor,
+      boxShadow: `-6px -6px 10px ${Colors.white}`,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
