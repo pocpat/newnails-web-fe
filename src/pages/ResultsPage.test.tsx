@@ -1,3 +1,4 @@
+/// <reference types="vitest/globals" />
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import { vi } from 'vitest';

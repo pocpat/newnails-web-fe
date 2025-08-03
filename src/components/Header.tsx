@@ -23,20 +23,23 @@ const Header = () => {
     <header style={styles.header}>
       <Link to="/" style={styles.logo}>Tipsy</Link>
       <div style={styles.menuContainer}>
-        <button aria-label="menu" onClick={() => setIsMenuOpen(!isMenuOpen)} style={styles.menuButton}>
-          {/* Using a simple icon for now */}
-          &#x22EE;
+        <button aria-label="menu" onClick={() => setIsMenuOpen(!isMenuOpen)} style={styles.menuToggle}>
+          <div style={styles.menuIcon}>
+            <div style={styles.menuDot}></div>
+            <div style={styles.menuDot}></div>
+            <div style={styles.menuDot}></div>
+          </div>
         </button>
         {isMenuOpen && (
           <div style={styles.menu}>
             {user ? (
               <>
-                <Link to="/my-designs" style={styles.menuItem} onClick={() => setIsMenuOpen(false)}>My Designs</Link>
-                <Link to="/design" style={styles.menuItem} onClick={() => setIsMenuOpen(false)}>Start Over</Link>
-                <button onClick={handleLogout} style={styles.menuItem}>Logout</button>
+                <Link to="/my-designs" style={styles.menuLink} onClick={() => setIsMenuOpen(false)}>My Designs</Link>
+                <Link to="/design" style={styles.menuLink} onClick={() => setIsMenuOpen(false)}>Start Over</Link>
+                <button onClick={handleLogout} style={styles.menuButton as React.CSSProperties}>Logout</button>
               </>
             ) : (
-              <Link to="/login" style={styles.menuItem} onClick={() => setIsMenuOpen(false)}>Login</Link>
+              <Link to="/login" style={styles.menuLink} onClick={() => setIsMenuOpen(false)}>Login</Link>
             )}
           </div>
         )}
@@ -63,12 +66,23 @@ const styles = {
   menuContainer: {
     position: 'relative',
   },
-  menuButton: {
+  menuToggle: {
     background: 'none',
     border: 'none',
-    color: 'white',
-    fontSize: '1.5rem',
     cursor: 'pointer',
+    padding: '0.5rem',
+  },
+  menuIcon: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '20px', // Height of the icon container
+  },
+  menuDot: {
+    width: '4px',
+    height: '4px',
+    backgroundColor: 'white',
+    borderRadius: '50%',
   },
   menu: {
     position: 'absolute',
@@ -81,9 +95,14 @@ const styles = {
     flexDirection: 'column',
     zIndex: 1000,
   },
-  menuItem: {
+  menuLink: {
     padding: '0.5rem 1rem',
     textDecoration: 'none',
+    color: 'black',
+    display: 'block',
+  },
+  menuButton: {
+    padding: '0.5rem 1rem',
     color: 'black',
     display: 'block',
     background: 'none',
@@ -91,6 +110,7 @@ const styles = {
     width: '100%',
     textAlign: 'left',
     cursor: 'pointer',
+    fontSize: '1rem', // Ensure font size is consistent
   },
 };
 

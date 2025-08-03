@@ -98,11 +98,8 @@ const DesignFormPage = () => {
 
   const styles = {
     outerContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        minHeight: 'calc(100vh - 70px)', // Adjust height to account for header
         backgroundColor: '#e0e0e0',
     },
     pageContainer: {

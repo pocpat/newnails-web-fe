@@ -26,8 +26,14 @@ const MyDesignsPage = () => {
   useEffect(() => {
     const fetchDesigns = async () => {
       try {
+        console.log('Fetching designs...');
         setLoading(true);
         const fetchedDesigns: ApiDesign[] = await getMyDesigns();
+        console.log('Fetched designs data:', fetchedDesigns);
+
+        if (!Array.isArray(fetchedDesigns)) {
+          throw new Error('Fetched data is not an array.');
+        }
         
         // The API sends 'imageUrl', and we map '_id' to 'id' for consistency.
         const formattedDesigns = fetchedDesigns.map((design: ApiDesign) => ({
@@ -37,11 +43,14 @@ const MyDesignsPage = () => {
           isFavorite: design.isFavorite,
           createdAt: design.createdAt,
         }));
+        console.log('Formatted designs:', formattedDesigns);
         setDesigns(formattedDesigns);
       } catch (err: any) {
+        console.error('Error fetching or processing designs:', err);
         setError(err.message || 'Failed to fetch designs.');
       } finally {
         setLoading(false);
+        console.log('Finished fetching.');
       }
     };
     fetchDesigns();
