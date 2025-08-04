@@ -15,16 +15,16 @@ const IMAGE_GENERATION_MODELS = [
   'HiDream-ai/HiDream-I1-Full:free',
 ];
 
-const lengthOptions = [{ value: "Short", icon: '' }, { value: "Medium", icon: '' }, { value: "Long", icon: '' }];
-const shapeOptions = [{ value: "Square", icon: '' }, { value: "Round", icon: '' }, { value: "Almond", icon: '' }, { value: "Squoval", icon: '' }, { value: "Pointed", icon: '' }, { value: "Ballerina", icon: '' }];
-const styleOptions = [{ value: "French", icon: '' }, { value: "Floral", icon: '' }, { value: "Line Art", icon: '' }, { value: "Geometric", icon: '' }, { value: "Ombre", icon: '' }, { value: "Abstract", icon: '' }, { value: "Dot Nails", icon: '' }, { value: "Glitter", icon: '' }];
+const lengthOptions = [{ value: "Short", icon: '/images/length_short.svg' }, { value: "Medium", icon: '/images/length_medium.svg' }, { value: "Long", icon: '/images/length_long.svg' }];
+const shapeOptions = [{ value: "Square", icon: '/images/shape_square.svg' }, { value: "Round", icon: '/images/shape_round.svg' }, { value: "Almond", icon: '/images/shape_almond.svg' }, { value: "Squoval", icon: '/images/shape_squoval.svg' }, { value: "Pointed", icon: '/images/shape_pointed.svg' }, { value: "Ballerina", icon: '/images/shape_ballerina.svg' }];
+const styleOptions = [{ value: "French", icon: '/images/style_french.svg' }, { value: "Floral", icon: '/images/style_floral.svg' }, { value: "Line Art", icon: '/images/style_line.svg' }, { value: "Geometric", icon: '/images/style_geometric.svg' }, { value: "Ombre", icon: '/images/style_ombre.svg' }, { value: "Abstract", icon: '/images/style_abstract.svg' }, { value: "Dot Nails", icon: '/images/style_dots.svg' }, { value: "Glitter", icon: '/images/style_glitter.png' }];
 const colorConfigOptions = [
-    { value: "Pick a Base Color", icon: '' },
-    { value: "Monochromatic", icon: '' },
-    { value: "Analogous", icon: '' },
-    { value: "Complimentary", icon: '' },
-    { value: "Triadic", icon: '' },
-    { value: "Tetradic", icon: '' },
+    { value: "Pick a Base Color", icon: '/images/color_select.svg' },
+    { value: "Monochromatic", icon: '/images/color_mono.svg' },
+    { value: "Analogous", icon: '/images/color_analog.svg' },
+    { value: "Complimentary", icon: '/images/color_complim.svg' },
+    { value: "Triadic", icon: '/images/color_triad.svg' },
+    { value: "Tetradic", icon: '/images/color_tetra.svg' },
 ];
 
 const steps = [

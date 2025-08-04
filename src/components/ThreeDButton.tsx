@@ -1,13 +1,22 @@
 import React from 'react';
 import { Colors } from '../lib/colors';
 
-const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, loading, backgroundColor }) => {
+
+interface ThreeDButtonProps {
+  onPress: () => void;
+  title: string;
+  disabled?: boolean;
+  loading?: boolean;
+  backgroundColor?: string;
+  icon?: string;
+}
+const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, loading, backgroundColor, icon }) => {
   const buttonColor = backgroundColor || Colors.solidTeal;
 
   const styles: { [key: string]: React.CSSProperties } = {
     buttonContainer: {
       display: 'block',
-      margin: '30px auto 0 auto',
+      margin: '20px auto 0 auto',
       borderRadius: '30px',
       backgroundColor: buttonColor,
       boxShadow: `6px 6px 10px ${Colors.mediumGray}`,
@@ -15,23 +24,32 @@ const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, l
       border: 'none',
       outline: 'none',
       padding: 0,
+      width: '120px',
     },
     disabledButton: {
       opacity: 0.6,
     },
     buttonInner: {
-      padding: '15px 40px',
+      padding: '20px 15px',
       borderRadius: '30px',
       backgroundColor: buttonColor,
       boxShadow: `-6px -6px 10px ${Colors.white}`,
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      gap: '10px',
     },
     buttonText: {
-      fontSize: '18px',
+      fontSize: '16px',
       fontFamily: 'Inter-Bold', // Ensure this font is loaded
       color: Colors.indigo,
+      marginTop: '5px',
+    },
+    icon: {
+        width: '80px',
+        height: '80px',
+        objectFit: 'contain',
     },
     // Simple spinner for loading state
     spinner: {
@@ -41,12 +59,6 @@ const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, l
       width: '20px',
       height: '20px',
       animation: 'spin 1s linear infinite',
-    },
-    // Keyframes for the spin animation (would typically be in a CSS file)
-    // This is a simplified representation for inline styles
-    '@keyframes spin': {
-      '0%': { transform: 'rotate(0deg)' },
-      '100%': { transform: 'rotate(360deg)' },
     },
   };
 
@@ -63,7 +75,10 @@ const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, l
         {loading ? (
           <div style={styles.spinner} /> // Simple spinner
         ) : (
-          <span style={styles.buttonText}>{title}</span>
+            <>
+            {icon && <img src={icon} alt="" style={styles.icon} />}
+            <span style={styles.buttonText}>{title}</span>
+          </>
         )}
       </div>
     </button>

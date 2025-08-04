@@ -46,6 +46,7 @@ const SelectionStep: React.FC<SelectionStepProps> = ({ options, onSelect, baseCo
               onPress={() => onSelect(option.value)}
               disabled={isPaletteDisabled}
               backgroundColor={isPickerButton && baseColor ? baseColor : undefined}
+              icon={option.icon}
             />
           </motion.div>
         );
