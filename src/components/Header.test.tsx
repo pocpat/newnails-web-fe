@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { vi } from 'vitest';
@@ -11,7 +12,7 @@ vi.mock('../lib/auth', () => ({
     user: { uid: 'test-user' }, // Simulate a logged-in user
     loading: false,
   }),
-  AuthProvider: ({ children }) => <div>{children}</div>,
+  AuthProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
 describe('Header component', () => {

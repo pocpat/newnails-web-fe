@@ -23,14 +23,15 @@ const mockImages = [
   'https://example.com/image1.jpg',
   'https://example.com/image2.jpg',
 ];
+const mockPrompt = 'A test prompt';
 
 describe('ResultsPage', () => {
   beforeEach(() => {
     // Reset mocks before each test
     vi.clearAllMocks();
-    // Setup the mock for useLocation to return our images
+    // Setup the mock for useLocation to return our images and prompt
     (useLocation as vi.Mock).mockReturnValue({
-      state: { generatedImages: mockImages },
+      state: { generatedImages: mockImages, prompt: mockPrompt },
     });
   });
 
@@ -75,7 +76,7 @@ describe('ResultsPage', () => {
     await waitFor(() => {
       expect(api.saveDesign).toHaveBeenCalledWith({
         temporaryImageUrl: mockImages[0],
-        prompt: `Generated design ${mockImages[0]}`, // This will need to be adjusted based on implementation
+        prompt: mockPrompt,
       });
     });
 
