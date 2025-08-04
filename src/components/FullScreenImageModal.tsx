@@ -23,7 +23,7 @@ const FullScreenImageModal: React.FC<FullScreenImageModalProps> = ({ isVisible, 
   );
 };
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   overlay: {
     position: 'fixed',
     top: 0,

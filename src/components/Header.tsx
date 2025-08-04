@@ -36,7 +36,7 @@ const Header = () => {
               <>
                 <Link to="/my-designs" style={styles.menuLink} onClick={() => setIsMenuOpen(false)}>My Designs</Link>
                 <Link to="/design" style={styles.menuLink} onClick={() => setIsMenuOpen(false)}>Start Over</Link>
-                <button onClick={handleLogout} style={styles.menuButton as React.CSSProperties}>Logout</button>
+                <button onClick={handleLogout} style={styles.menuButton}>Logout</button>
               </>
             ) : (
               <Link to="/login" style={styles.menuLink} onClick={() => setIsMenuOpen(false)}>Login</Link>
@@ -74,7 +74,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   menuIcon: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column' as 'column',
     justifyContent: 'space-between',
     height: '20px', // Height of the icon container
   },

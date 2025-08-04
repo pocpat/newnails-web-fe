@@ -1,19 +1,19 @@
+
 import React, { useRef, useEffect } from 'react';
 import iro from '@jaames/iro';
-import type { ColorPicker } from '@jaames/iro';
 
 interface IroColorPickerProps {
   color: string;
-  onColorChange: (color: any) => void;
+  onColorChange: (color: iro.Color) => void;
 }
 
 const IroColorPicker: React.FC<IroColorPickerProps> = ({ color, onColorChange }) => {
   const pickerRef = useRef<HTMLDivElement>(null);
-  const colorPickerInstance = useRef<ColorPicker | null>(null);
+  const colorPickerInstance = useRef<iro.ColorPicker | null>(null);
 
   useEffect(() => {
     if (pickerRef.current && !colorPickerInstance.current) {
-      colorPickerInstance.current = new iro.ColorPicker(pickerRef.current, {
+      const newColorPicker = new (iro.ColorPicker as any)(pickerRef.current as HTMLElement, {
         width: 280,
         color: color,
         borderWidth: 1,
@@ -25,9 +25,15 @@ const IroColorPicker: React.FC<IroColorPickerProps> = ({ color, onColorChange })
         ],
       });
 
-      colorPickerInstance.current.on('color:change', onColorChange);
+      newColorPicker.on('color:change', onColorChange);
+      colorPickerInstance.current = newColorPicker;
+
+      // Return a cleanup function to remove the event listener when the component unmounts.
+      return () => {
+        newColorPicker.off('color:change', onColorChange);
+      };
     }
-  }, [color, onColorChange]);
+  }, [onColorChange, color]); // Keeping `color` in case the initial color prop can change.
 
   useEffect(() => {
     if (colorPickerInstance.current) {

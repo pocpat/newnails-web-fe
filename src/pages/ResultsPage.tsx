@@ -71,7 +71,7 @@ const ResultsPage = () => {
 };
 
 // Basic styling
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   container: { padding: '2rem' },
   title: { textAlign: 'center', marginBottom: '2rem' },
   grid: {

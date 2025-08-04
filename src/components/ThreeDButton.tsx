@@ -41,10 +41,10 @@ const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, l
       gap: '10px',
     },
     buttonText: {
-      fontSize: '16px',
+      fontSize: '1.125rem',
       fontFamily: 'Inter, sans-serif',
       fontWeight: '600',
-      color: Colors.indigo,
+      color: Colors.darkCherry,
       marginTop: '5px',
     },
     icon: {

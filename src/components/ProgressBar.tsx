@@ -17,7 +17,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps }) =>
       marginBottom: '20px',
     },
     barBackground: {
-      height: '8px',
+      height: '18px',
       backgroundColor: Colors.lightGrayPurple,
       borderRadius: '4px',
       overflow: 'hidden',

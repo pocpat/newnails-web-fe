@@ -6,7 +6,6 @@ import SelectionStep from '../../src/components/SelectionStep';
 import ColorPickerModal from '../../src/components/ColorPickerModal';
 import { generateDesigns } from '../../src/lib/api';
 import { Colors } from '../../src/lib/colors';
-import Footer from '../../src/components/Footer';
 
 // --- Constants ---
 const IMAGE_GENERATION_MODELS = [
@@ -21,11 +20,11 @@ const shapeOptions = [{ value: "square", icon: '/images/shape_square.svg' }, { v
 const styleOptions = [{ value: "french", icon: '/images/style_french.svg' }, { value: "floral", icon: '/images/style_floral.svg' }, { value: "line art", icon: '/images/style_line.svg' }, { value: "geometric", icon: '/images/style_geometric.svg' }, { value: "ombre", icon: '/images/style_ombre.svg' }, { value: "abstract", icon: '/images/style_abstract.svg' }, { value: "dot nails", icon: '/images/style_dots.svg' }, { value: "glitter", icon: '/images/style_glitter.png' }];
 const colorConfigOptions = [
     { value: "Pick a Base Color", icon: '/images/color_select.svg' },
-    { value: "monochromatic", icon: '/images/color_mono.svg' },
-    { value: "analogous", icon: '/images/color_analog.svg' },
-    { value: "complimentary", icon: '/images/color_complim.svg' },
-    { value: "triadic", icon: '/images/color_triad.svg' },
-    { value: "tetradic", icon: '/images/color_tetra.svg' },
+    { value: "unified", icon: '/images/color_mono.svg' },
+    { value: "harmonious", icon: '/images/color_analog.svg' },
+    { value: "contrast", icon: '/images/color_complim.svg' },
+    { value: "balanced", icon: '/images/color_triad.svg' },
+    { value: "rich", icon: '/images/color_tetra.svg' },
 ];
 
 const steps = [
@@ -104,7 +103,7 @@ const DesignFormPage = () => {
 
   const currentStep = steps[currentStepIndex];
 
-  const styles = {
+  const styles: { [key: string]: React.CSSProperties } = {
     outerContainer: {
         width: '100%',
         minHeight: 'calc(100vh - 70px)', // Adjust height to account for header
@@ -150,7 +149,7 @@ const DesignFormPage = () => {
     },
     title: {
       fontFamily: 'PottaOne, sans-serif',
-      fontSize: '36px',
+      fontSize: '3rem',
       color: Colors.darkCherry,
       textAlign: 'center' as 'center', // Center the title
       width: '100%',
@@ -162,16 +161,21 @@ const DesignFormPage = () => {
     },
     subtitle: {
         fontFamily: 'Inter, sans-serif',
-        fontSize: '28px',
+        fontSize: '1.69rem',
         fontWeight: '600',
         color: Colors.greyAzure,
-        marginBottom: '5px',
+        textTransform: 'uppercase',
+        margin: 0,
+
     },
     subtitleDetail: {
         fontFamily: 'Inter, sans-serif',
-        fontSize: '22px',
+        fontSize: '2.25rem',
         fontWeight: '400',
-        color:Colors.greyAzure,
+        color: Colors.greyAzure,
+        textTransform: 'uppercase',
+        margin: 0,
+        letterSpacing: '1.6px',
     },
     topContent: {
         width: '100%',
