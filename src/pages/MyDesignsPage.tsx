@@ -5,7 +5,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { BiSolidTimeFive } from "react-icons/bi";
 import { Colors } from "../lib/colors";
-import bgColor from "../../public/images/bg1.png";
+import bgColor from "../assets/images/bg1.png";
 
 
 interface Design {

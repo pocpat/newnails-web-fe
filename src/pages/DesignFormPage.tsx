@@ -106,10 +106,12 @@ const DesignFormPage = () => {
   const styles: { [key: string]: React.CSSProperties } = {
     outerContainer: {
         width: '100%',
-        minHeight: 'calc(100vh - 70px)', // Adjust height to account for header
+        minHeight: 'calc(95vh - 70px)', // Adjust height to account for header
         backgroundColor: '#FFFFFF', // Changed to white to remove the gray background
         display: 'flex',
         flexDirection: 'column' as 'column',
+        justifyContent: 'space-between',  //new
+       
     },
     pageContainer: {
         display: 'flex',
