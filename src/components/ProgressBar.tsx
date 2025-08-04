@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Colors } from '../lib/colors';
 
 interface ProgressBarProps {
   currentStep: number;
@@ -11,24 +12,24 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps }) =>
 
   const styles = {
     container: {
-      width: '80%',
-      maxWidth: '400px',
+      width: '100%', // Take full width to align with the title
+      maxWidth: '600px', // Set a max-width for larger screens
       marginBottom: '20px',
     },
     barBackground: {
       height: '8px',
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      backgroundColor: Colors.lightGrayPurple,
       borderRadius: '4px',
       overflow: 'hidden',
     },
     barFill: {
       height: '100%',
-      backgroundColor: '#D8BFD8',
+      backgroundColor: Colors.solidTeal,
       borderRadius: '4px',
     },
     text: {
-      color: '#F5F5DC',
-      textAlign: 'center' as 'center',
+      color: Colors.mediumGray, // Changed to a darker color for better readability
+      textAlign: 'left' as 'left', // Align text to the left
       marginTop: '8px',
       fontSize: '14px',
     },
@@ -44,7 +45,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps }) =>
           transition={{ duration: 0.5, ease: 'easeInOut' }}
         />
       </div>
-      <p style={styles.text}>{`Step ${currentStep} of ${totalSteps}`}</p>
+      {/* <p style={styles.text}>{`Step ${currentStep} of ${totalSteps}`}</p> */}
     </div>
   );
 };

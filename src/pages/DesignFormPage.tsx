@@ -5,6 +5,7 @@ import ProgressBar from '../../src/components/ProgressBar';
 import SelectionStep from '../../src/components/SelectionStep';
 import ColorPickerModal from '../../src/components/ColorPickerModal';
 import { generateDesigns } from '../../src/lib/api';
+import { Colors } from '../../src/lib/colors';
 
 // --- Constants ---
 const IMAGE_GENERATION_MODELS = [
@@ -100,7 +101,7 @@ const DesignFormPage = () => {
     outerContainer: {
         width: '100%',
         minHeight: 'calc(100vh - 70px)', // Adjust height to account for header
-        backgroundColor: '#e0e0e0',
+        backgroundColor: '#FFFFFF', // Changed to white to remove the gray background
     },
     pageContainer: {
         display: 'flex',
@@ -115,10 +116,8 @@ const DesignFormPage = () => {
         overflow: 'hidden', // Hide anything that might stick out
     },
     leftPanel: {
-        width: '540px', // Set width to half of the container's height (1080px / 2)
-        backgroundImage: 'url(/images/bg.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        width: '540px',
+        backgroundColor: Colors.lightDustyBroun,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -130,19 +129,20 @@ const DesignFormPage = () => {
         height: 'auto',
     },
     rightPanel: {
-        flex: 1, // Allow the right panel to fill the remaining space
+        flex: 1,
         backgroundColor: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column' as 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start', // Align content to the top
         alignItems: 'center',
         padding: '40px',
     },
     title: {
       fontSize: '36px',
-      color: '#333',
-      textAlign: 'center' as 'center',
-      margin: '0 0 20px 0',
+      color: Colors.darkBlue,
+      textAlign: 'center' as 'center', // Center the title
+      width: '100%',
+      marginBottom: '20px',
     },
     subtitleContainer: {
         textAlign: 'center' as 'center',

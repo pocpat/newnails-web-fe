@@ -1,19 +1,5 @@
 import React from 'react';
-
-interface ThreeDButtonProps {
-  onPress: () => void;
-  title: string;
-  disabled?: boolean;
-  loading?: boolean;
-  backgroundColor?: string;
-}
-
-const Colors = {
-  solidTeal: '#20B2AA',
-  mediumGray: '#A9A9A9',
-  white: '#FFFFFF',
-  indigo: '#4B0082',
-};
+import { Colors } from '../lib/colors';
 
 const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, loading, backgroundColor }) => {
   const buttonColor = backgroundColor || Colors.solidTeal;
