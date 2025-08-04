@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { saveDesign } from '../lib/api';
 import FullScreenImageModal from '../components/FullScreenImageModal';
+import { ImEnlarge } from "react-icons/im";
+import { GrSave } from "react-icons/gr";
+import { BsFillSave2Fill } from "react-icons/bs";
+import { Colors } from '../lib/colors';
+
 
 const ResultsPage = () => {
   const location = useLocation();
@@ -48,14 +53,15 @@ const ResultsPage = () => {
             <img src={url} alt={`Generated design ${index + 1}`} style={styles.image} />
             <div style={styles.buttonContainer}>
               <button onClick={() => handleFullScreen(url)} style={styles.button}>
-                Full Screen
+             
+               <ImEnlarge />
               </button>
               <button
                 onClick={() => handleSave(url)}
                 disabled={savedImages.includes(url) || saving === url}
                 style={styles.button}
               >
-                {savedImages.includes(url) ? 'Saved' : saving === url ? 'Saving...' : 'Save'}
+                {savedImages.includes(url) ? <BsFillSave2Fill /> : saving === url ? 'Saving...' : <GrSave />}
               </button>
             </div>
           </div>
@@ -73,7 +79,14 @@ const ResultsPage = () => {
 // Basic styling
 const styles: { [key: string]: React.CSSProperties } = {
   container: { padding: '2rem' },
-  title: { textAlign: 'center', marginBottom: '2rem' },
+  title: {
+        fontFamily: 'PottaOne, sans-serif',
+        fontSize: '3rem',
+        color: Colors.darkCherry,
+        textAlign: 'center' as 'center', // Center the title
+        width: '100%',
+        marginBottom: '20px',
+      },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',

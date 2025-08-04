@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { vi } from 'vitest';
 import MyDesignsPage from '../pages/MyDesignsPage';
 import * as api from '../lib/api';
+import { Colors } from '../lib/colors';
 
 // Mock the API module
 vi.mock('../lib/api', () => ({
