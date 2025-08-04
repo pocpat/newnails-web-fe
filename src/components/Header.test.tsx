@@ -23,7 +23,7 @@ describe('Header component', () => {
     );
 
     // Check for the logo (we'll use text for now)
-    expect(screen.getByText('Tipsy')).toBeInTheDocument();
+    expect(screen.getByText('DiPSY')).toBeInTheDocument();
 
     // Check for the menu button
     expect(screen.getByRole('button', { name: /menu/i })).toBeInTheDocument();

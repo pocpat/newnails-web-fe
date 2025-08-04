@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <header style={styles.header}>
-      <Link to="/" style={styles.logo}>Tipsy</Link>
+      <Link to="/" style={styles.logo}>DiPSY</Link>
       <div style={styles.menuContainer}>
         <button aria-label="menu" onClick={() => setIsMenuOpen(!isMenuOpen)} style={styles.menuToggle}>
           <div style={styles.menuIcon}>
@@ -49,7 +49,7 @@ const Header = () => {
 };
 
 // Basic styling to make the component functional
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   header: {
     display: 'flex',
     justifyContent: 'space-between',

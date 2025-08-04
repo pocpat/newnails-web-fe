@@ -21,6 +21,8 @@ const SelectionStep: React.FC<SelectionStepProps> = ({ options, onSelect, baseCo
       flexWrap: 'wrap' as 'wrap',
       justifyContent: 'center',
       gap: '20px',
+      maxWidth: '620px',
+      margin: '0 auto',
     },
     disabledWrapper: {
         opacity: 0.5,

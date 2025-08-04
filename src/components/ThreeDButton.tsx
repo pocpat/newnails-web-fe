@@ -42,7 +42,8 @@ const ThreeDButton: React.FC<ThreeDButtonProps> = ({ onPress, title, disabled, l
     },
     buttonText: {
       fontSize: '16px',
-      fontFamily: 'Inter-Bold', // Ensure this font is loaded
+      fontFamily: 'Inter, sans-serif',
+      fontWeight: '600',
       color: Colors.indigo,
       marginTop: '5px',
     },
