@@ -7,10 +7,11 @@ const styles = `
   .welcome-container {
     display: flex;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     font-family: 'Poppins', 'Inter', 'Helvetica Neue', sans-serif; /* Modern, clean font */
     color: #333;
     overflow: hidden; /* Prevents scrollbars on the main view */
+    flex-grow: 1;
   }
 
   .left-pane {
@@ -157,7 +158,7 @@ const WelcomePage = () => {
         </div>
         
         <div className="right-pane">
-          <div className="menu-icon" title="Menu">●●●</div>
+        
           
           <p className="subheading-light">Create unique designs</p>
           <h1 className="main-heading">DiPSY</h1>

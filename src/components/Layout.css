@@ -1,0 +1,38 @@
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  /* This is the key: it ensures the layout is at least the full height of the viewport. */
+  min-height: 100vh; 
+}
+
+.main-content {
+  /* This is the magic! It makes the main content area grow to fill any
+     available space, pushing the footer down. */
+  flex-grow: 1;
+
+  /* This is also important for pages like WelcomePage that want to fill this area */
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background-color: #282c34; /* Dark header like in your screenshot */
+  padding: 15px 30px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  /* You can add flexbox here too to align items */
+  display: flex;
+  align-items: center;
+}
+
+.app-footer {
+  background-color: #f1f1f1;
+  padding: 15px 30px;
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+  /* The footer will not "grow", so it stays at its natural height */
+  flex-shrink: 0; 
+}
