@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import IroColorPicker from './IroColorPicker';
-import ThreeDButton from './ThreeDButton';
+import StyledButton from './StyledButton';
 
 interface ColorPickerModalProps {
   isVisible: boolean;
-  onSelectColor: (hex: string) => void;
+  //onSelectColor: (hex: string) => void;
+ onSelectColor: () => void;
   onClose: () => void;
+  currentColor: string;
+  onColorChange: (color: any) => void;
 }
 
-const ColorPickerModal: React.FC<ColorPickerModalProps> = ({ isVisible, onSelectColor, onClose }) => {
-  const [color, setColor] = useState('#b3e5fc');
+const ColorPickerModal: React.FC<ColorPickerModalProps> = ({ isVisible, onSelectColor, onClose, currentColor, onColorChange }) => {
+  //const [color, setColor] = useState('#b3e5fc');
 
-  const handleColorChange = (newColor: any) => {
-    setColor(newColor.hexString);
-  };
+
 
   const handleOkClick = () => {
-    onSelectColor(color);
-    onClose();
+    onSelectColor();
+  
   };
 
   if (!isVisible) {
@@ -48,8 +49,11 @@ const ColorPickerModal: React.FC<ColorPickerModalProps> = ({ isVisible, onSelect
   return (
     <div style={styles.overlay} onClick={onClose}>
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <IroColorPicker color={color} onColorChange={handleColorChange} />
-        <ThreeDButton title="OK" onPress={handleOkClick} />
+ <IroColorPicker 
+          color={currentColor} 
+          onColorChange={onColorChange} // Pass the raw function down
+        /> 
+        <StyledButton title="OK" onPress={handleOkClick} />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import ThreeDButton from './ThreeDButton';
+import StyledButton from './StyledButton';
 
 interface SelectorOption {
   value: string;
@@ -15,6 +15,9 @@ interface SelectionStepProps {
 }
 
 const SelectionStep: React.FC<SelectionStepProps> = ({ options, onSelect, baseColor, stepId }) => {
+  // --- DEBUG LOG ---
+  console.log('SelectionStep received baseColor:', baseColor);
+
   const styles = {
     container: {
       display: 'flex',
@@ -43,7 +46,7 @@ const SelectionStep: React.FC<SelectionStepProps> = ({ options, onSelect, baseCo
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <ThreeDButton
+            <StyledButton
               title={option.value}
               onPress={() => onSelect(option.value)}
               disabled={isPaletteDisabled}

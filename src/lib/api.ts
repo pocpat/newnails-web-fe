@@ -1,40 +1,52 @@
+import { auth } from './firebase';
+import type { User } from 'firebase/auth';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
 console.log('Using API_BASE_URL:', API_BASE_URL);
 
-// Assuming firebase.ts will be created and configured for web in the same directory
-import { auth } from './firebase';
+/**
+ * Awaits for the Firebase auth state to be initialized and returns the current user.
+ * This is crucial to avoid race conditions where `auth.currentUser` is null.
+ * @returns A promise that resolves with the User object or null if not signed in.
+ */
+const getInitializedUser = (): Promise<User | null> => {
+  return new Promise((resolve) => {
+    if (auth.currentUser) {
+      return resolve(auth.currentUser);
+    }
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
+};
 
 async function fetchWithAuth(url: string, options: RequestInit = {}) {
-  const user = auth.currentUser;
-  let token = null;
-  if (user) {
-    token = await user.getIdToken(true); // Force a token refresh
+  const user = await getInitializedUser();
+
+  if (!user) {
+    throw new Error('Authentication required. No user is signed in.');
   }
 
-  // Correctly initialize Headers object to avoid type errors
+  const token = await user.getIdToken(true); // Force a token refresh
   const headers = new Headers(options.headers);
+  headers.set('Authorization', `Bearer ${token}`);
 
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  // Only add Content-Type if there is a body and it's not already set
   if (options.body && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json');
   }
 
   const response = await fetch(`${API_BASE_URL}${url}`, {
     ...options,
-    headers, // Use the correctly constructed Headers object
+    headers,
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
+    const errorData = await response.json().catch(() => ({ error: 'Invalid JSON response from server' }));
+    console.error('API Error Response:', errorData);
     throw new Error(errorData.error || 'Something went wrong');
   }
 
-  // Handle cases where the response might be empty
   const text = await response.text();
   return text ? JSON.parse(text) : {};
 }
@@ -45,6 +57,7 @@ export async function generateDesigns(designOptions: {
   width?: number;
   height?: number;
   num_images?: number;
+  baseColor?: string;
 }) {
   return fetchWithAuth('/api/generate', {
     method: 'POST',
@@ -74,6 +87,6 @@ export async function deleteDesign(designId: string) {
 
 export async function toggleFavorite(designId: string) {
   return fetchWithAuth(`/api/designs/${designId}/favorite`, {
-    method: 'PATCH', // No body, which is the correct fix.
+    method: 'PATCH',
   });
 }

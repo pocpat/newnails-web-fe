@@ -41,13 +41,13 @@ const lengthOptions = [
 const shapeOptions = [
   { value: "square", icon: square },
   { value: "round", icon: round },
-  { value: "almond", icon: "/images/shape_almond.svg" },
-  { value: "squoval", icon: "/images/shape_squoval.svg" },
-  { value: "pointed", icon: "/images/shape_pointed.svg" },
-  { value: "ballerina", icon: "/images/shape_ballerina.svg" },
+  { value: "almond", icon: almond },
+  { value: "squoval", icon: squoval },
+  { value: "pointed", icon: pointed },
+  { value: "ballerina", icon: ballerina },
 ];
 const styleOptions = [
-  { value: "french", icon: long },
+  { value: "french", icon: french },
   { value: "floral", icon: floral },
   { value: "line art", icon: line },
   { value: "geometric", icon: geometric },
@@ -72,6 +72,12 @@ const steps = [
   { id: "color", title: "Color Palette", options: colorConfigOptions },
 ];
 
+
+
+
+
+
+
 // --- Component ---
 const DesignFormPage = () => {
   const navigate = useNavigate();
@@ -79,6 +85,10 @@ const DesignFormPage = () => {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [isColorPickerVisible, setColorPickerVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+const [tempColor, setTempColor] = useState('#b3e5fc');
+
+
+
 
   const handleImpressMe = async (finalSelections: Record<string, string>) => {
     setLoading(true);
@@ -120,15 +130,23 @@ const DesignFormPage = () => {
     }
   };
 
+    const handleTempColorChange = (color: any) => {
+    setTempColor(color.hexString);
+  };
+
   const handleSelect = async (value: string) => {
     const currentStep = steps[currentStepIndex];
 
     if (currentStep.id === "color" && value === "Pick a Base Color") {
+       setTempColor(selections.baseColor || '#b3e5fc');
       setColorPickerVisible(true);
       return;
     }
-
+//  const handleTempColorChange = (color: any) => {
+//     setTempColor(color.hexString);
+//   };
     const newSelections = { ...selections, [currentStep.id]: value };
+
     setSelections(newSelections);
 
     if (currentStepIndex >= steps.length - 1) {
@@ -142,12 +160,27 @@ const DesignFormPage = () => {
     }
   };
 
-  const handleColorSelect = (hex: string) => {
-    setSelections({ ...selections, baseColor: hex });
-    setColorPickerVisible(false);
-  };
+  // const handleColorSelect = (hex: string) => {
+  //   setSelections({ ...selections, baseColor: hex });
+  //   setColorPickerVisible(false);
+  //   // No longer advances the step automatically
+  // };
 
-  const currentStep = steps[currentStepIndex];
+
+
+
+const handleColorConfirm = () => {
+  // Add this log to see what you are trying to set
+  console.log(`[DesignFormPage] Confirming color. Setting baseColor to: ${tempColor}`);
+
+  setSelections(prevSelections => ({
+    ...prevSelections,
+    baseColor: tempColor
+  }));
+  setColorPickerVisible(false);
+};
+
+ const currentStep = steps[currentStepIndex];
 
   const styles: { [key: string]: React.CSSProperties } = {
     outerContainer: {
@@ -253,7 +286,7 @@ const DesignFormPage = () => {
       </div>
     );
   }
-
+ console.log(`[DesignFormPage] Rendering with selections.baseColor:`, selections.baseColor);
   return (
     <div style={styles.outerContainer}>
       <div style={styles.pageContainer}>
@@ -300,12 +333,15 @@ const DesignFormPage = () => {
           </div>
         </div>
 
-        <ColorPickerModal
+ <ColorPickerModal
           isVisible={isColorPickerVisible}
-          onSelectColor={handleColorSelect}
+          currentColor={tempColor}
+          onColorChange={handleTempColorChange} 
+          onSelectColor={handleColorConfirm}
           onClose={() => setColorPickerVisible(false)}
         />
-      </div>
+    
+         </div>
     </div>
   );
 };
