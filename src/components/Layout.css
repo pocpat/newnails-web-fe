@@ -4,6 +4,9 @@
   flex-direction: column;
   /* This is the key: it ensures the layout is at least the full height of the viewport. */
   min-height: 100vh; 
+   max-width: 1440px; /* A common and generous max-width */
+  width: 100%;       /* Ensures it's responsive on smaller screens */
+  margin: 0 auto;    /* The magic for centering a block element */
 }
 
 .main-content {
@@ -28,11 +31,16 @@
 }
 
 .app-footer {
-  background-color: #f1f1f1;
+background: linear-gradient(
+    to bottom,                          /* Direction of the gradient */
+    rgba(241, 241, 241, 0) 0%,          /* Start: Fully transparent light grey at the top */
+    rgba(241, 241, 241, 1) 70%          /* End: Fully opaque light grey at the halfway point */
+);
   padding: 15px 30px;
   text-align: center;
   color: #555;
   font-size: 0.9rem;
   /* The footer will not "grow", so it stays at its natural height */
   flex-shrink: 0; 
+  opacity: 0.5;
 }

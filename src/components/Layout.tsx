@@ -22,7 +22,7 @@ const Footer = () => (
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="app-layout">
+    <div className="app-layout ">
       <Header />
       <main className="main-content">
         {children}

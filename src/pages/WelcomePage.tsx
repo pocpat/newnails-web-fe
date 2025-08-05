@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
-
+import { Colors } from '../lib/colors';
 // It's good practice to define styles in a separate object or file.
 // This keeps the JSX clean and makes the styles easier to manage.
 const styles = `
@@ -8,7 +8,7 @@ const styles = `
     display: flex;
     width: 100%;
     height: 100%;
-    font-family: 'Poppins', 'Inter', 'Helvetica Neue', sans-serif; /* Modern, clean font */
+    font-family: 'Inter', 'Helvetica Neue', sans-serif; /* Modern, clean font */
     color: #333;
     overflow: hidden; /* Prevents scrollbars on the main view */
     flex-grow: 1;
@@ -51,7 +51,7 @@ const styles = `
     right: 25px;
     font-size: 24px;
     letter-spacing: 3px;
-    color: #87CEEB; /* A light sky blue, similar to the image */
+    color: ${Colors.solidTeal}; /* A light sky blue, similar to the image */
     cursor: pointer;
   }
 
@@ -65,12 +65,43 @@ const styles = `
   }
 
   .main-heading {
+    font-family: 'PottaOne', sans-serif;
     font-size: 4.5rem; /* Large and impactful */
     font-weight: 700;
-    margin: 10px 0;
+    margin: 10px 0 20rem 0;
     color: #1a1a1a;
+    position: relative;
+    line-height: 0.9;
+    color: ${Colors.darkCherry}; 
   }
   
+  .main-heading::after {
+  /* This grabs the text from the 'data-content' attribute we added in the HTML */
+  content: attr(data-content); 
+
+  /* Positioning */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%; /* Place it right below the original text */
+  
+  /* The upside-down transformation */
+  transform: scaleY(-1);
+  
+  /* The visual styling for the reflection */
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 30, 30, 0) 0%,  /* Starts semi-transparent dark grey */
+     rgba(30, 30, 30, 0.15) 90%     /* Fades to fully transparent */
+  );
+  -webkit-background-clip: text; /* Clips the background to the text shape */
+  background-clip: text;
+  color: transparent; /* Makes the original text color transparent to show the background */
+  
+  /* Prevents user from selecting the reflection text */
+  user-select: none; 
+}
+
   .font-preview {
     font-size: 3rem;
     color: #f0f0f0; /* Very light grey */
@@ -122,7 +153,8 @@ const styles = `
       padding-top: 4rem;
     }
     .main-heading {
-      font-size: 3rem;
+      font-size: 4.5rem;
+      color:#5f2461; 
     }
   }
 `;
@@ -161,8 +193,9 @@ const WelcomePage = () => {
         
           
           <p className="subheading-light">Create unique designs</p>
-          <h1 className="main-heading">DiPSY</h1>
-          <p className="font-preview">abcde</p>
+          <h1 className="main-heading" data-content="DiPSY">DiPSY</h1>
+ 
+
           <p className="subheading-dark">Your creative journey starts here</p>
 
           {/* The button's text is always "START" to match the design.
