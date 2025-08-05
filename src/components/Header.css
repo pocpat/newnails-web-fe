@@ -1,0 +1,93 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+  position: relative;
+  z-index: 10;
+}
+
+.header-logo {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header-menu-container {
+  position: relative;
+}
+
+.header-menu-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+/* This is a real CSS pseudo-class, which is the reliable way to do hovers */
+.header-menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-menu-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-menu-dot {
+  width: 5px; /* Make it huge */
+  height: 5px; /* Make it huge */
+  background-color: white;
+  border-radius: 50%;
+  border: 5px solid red !important; /* Add a big red border */
+  z-index: 10  ;}
+
+
+.header-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  min-width: 180px;
+  padding: 0.5rem 0;
+  overflow: hidden;
+}
+
+.header-menu-link,
+.header-menu-button {
+  padding: 0.75rem 1.25rem;
+  text-decoration: none;
+  color: #333;
+  display: block;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.header-menu-link:hover,
+.header-menu-button:hover {
+  background-color: #f5f5f5;
+}
+

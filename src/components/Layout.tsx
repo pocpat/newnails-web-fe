@@ -1,16 +1,7 @@
-
-
-
 import React from 'react';
 import './Layout.css'; // We'll create this file next
+import Header from './Header';
 
-// A simple placeholder for the Header component
-const Header = () => (
-  <header className="app-header">
-    <div className="logo">DiPSY</div>
-    {/* You can add navigation links here later */}
-  </header>
-);
 
 // A simple placeholder for the Footer component
 const Footer = () => (
