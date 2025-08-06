@@ -91,46 +91,108 @@ const [tempColor, setTempColor] = useState('#b3e5fc');
 
 
 
-  const handleImpressMe = async (finalSelections: Record<string, string>) => {
-    setLoading(true);
-    try {
-      const { length, shape, style, color, baseColor } = finalSelections;
-      let prompt = `A detailed closeup Nail design with ${length} length, ${shape} shape, ${style} style`;
+  // const handleImpressMe = async (finalSelections: Record<string, string>) => {
+  //   setLoading(true);
+  //   try {
 
-      if (baseColor) {
-        prompt += `, using a base color of ${baseColor}`;
-      }
-      if (color && color !== "Pick a Base Color") {
-        prompt += ` in a ${color} color configuration.`;
-      } else {
-        prompt += ".";
-      }
+  //     const { length, shape, style, color, baseColor } = finalSelections;
+  //     let prompt = `A detailed closeup Nail design with ${length} length, ${shape} shape, ${style} style`;
 
-      const imagePromises = IMAGE_GENERATION_MODELS.map((model) =>
+  //     if (baseColor) {
+  //       prompt += `, using a base color of ${baseColor}`;
+  //     }
+  //     if (color && color !== "Pick a Base Color") {
+  //       prompt += ` in a ${color} color configuration.`;
+  //     } else {
+  //       prompt += ".";
+  //     }
+
+  //     const imagePromises = IMAGE_GENERATION_MODELS.map((model) =>
+  //       generateDesigns({
+  //         prompt,
+  //         model,
+  //         num_images: 1,
+  //         width: 1024,
+  //         height: 1024,
+  //       })
+  //     );
+
+  //     const results = await Promise.all(imagePromises);
+  //     const imageUrls = results.flatMap((result) => result.imageUrls);
+
+  //     navigate("/results", {
+  //       state: { generatedImages: imageUrls, prompt: prompt },
+  //     });
+  //     return true;
+      
+  //   } catch (error: any) {
+  //     setLoading(false);
+  //     console.error("Fatal error in handleImpressMe:", error);
+  //     alert(`Generation Failed: ${error.message}`);
+  //     return false;
+  //   }
+  // };
+
+
+
+
+
+
+
+
+const handleImpressMe = async (finalSelections: Record<string, string>) => {
+  setLoading(true);
+  try {
+    // 1. We have all the raw selections: length, shape, style, color, baseColor
+    console.log("Sending raw selections to backend:", finalSelections);
+
+    // 2. Pass all selections directly to the backend API call.
+    // The `generateDesigns` function will stringify this object.
+    const results = await Promise.all(
+      IMAGE_GENERATION_MODELS.map((model) =>
         generateDesigns({
-          prompt,
-          model,
+          ...finalSelections, // Pass all selections
+          model: model,
           num_images: 1,
           width: 1024,
           height: 1024,
         })
-      );
+      )
+    );
 
-      const results = await Promise.all(imagePromises);
-      const imageUrls = results.flatMap((result) => result.imageUrls);
+    const imageUrls = results.flatMap((result) => result.imageUrls);
 
-      navigate("/results", {
-        state: { generatedImages: imageUrls, prompt: prompt },
-      });
-      return true;
-    } catch (error: any) {
-      setLoading(false);
-      console.error("Fatal error in handleImpressMe:", error);
-      alert(`Generation Failed: ${error.message}`);
-      return false;
-    }
-  };
+    // 3. Navigate to the results page.
+    // The prompt is no longer needed here as it's built on the backend.
+    navigate("/results", {
+      state: { generatedImages: imageUrls },
+    });
 
+    return true;
+  } catch (error: any) {
+    setLoading(false);
+    console.error("Fatal error in handleImpressMe:", error);
+    alert(`Generation Failed: ${error.message}`);
+    return false;
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     const handleTempColorChange = (color: any) => {
     setTempColor(color.hexString);
   };
