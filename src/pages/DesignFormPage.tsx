@@ -23,6 +23,7 @@ import ombre from "../../src/assets/images/style_ombre.svg";
 import abstract from "../../src/assets/images/style_abstract.svg";
 import dots from "../../src/assets/images/style_dots.svg";
 import glitter from "../../src/assets/images/style_glitter.png";
+import LoadingPage from "../../src/pages/LoadingPage";
 
 
 // --- Constants ---
@@ -275,17 +276,9 @@ const handleColorConfirm = () => {
     },
   };
 
-  if (loading) {
-    return (
-      <div style={styles.outerContainer}>
-        <div style={styles.pageContainer}>
-          <h1 style={{ ...styles.title, margin: "auto" }}>
-            Generating your masterpiece...
-          </h1>
-        </div>
-      </div>
-    );
-  }
+if (loading) {
+  return <LoadingPage />;
+}
  console.log(`[DesignFormPage] Rendering with selections.baseColor:`, selections.baseColor);
   return (
     <div style={styles.outerContainer}>

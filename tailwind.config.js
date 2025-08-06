@@ -29,6 +29,9 @@ export default {
         lightDustyBroun: '#776979',
         solidTeal: '#a6e4df'
       },
+      fontFamily: {
+      title: ['PottaOne', 'cursive'],
+    },
     },
   },
   plugins: [],
