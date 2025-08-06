@@ -52,12 +52,16 @@ async function fetchWithAuth(url: string, options: RequestInit = {}) {
 }
 
 export async function generateDesigns(designOptions: {
-  prompt: string;
+  // Add all the potential properties here
+  length?: string;
+  shape?: string;
+  style?: string;
+  color?: string; // This is the colorConfig
+  baseColor?: string;
   model: string;
   width?: number;
   height?: number;
   num_images?: number;
-  baseColor?: string;
 }) {
   return fetchWithAuth('/api/generate', {
     method: 'POST',
