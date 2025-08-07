@@ -45,7 +45,7 @@ const ResultsPage = () => {
   }
 
   return (
-    <div style={styles.outerContainer}>
+    <div >
       <div style={styles.pageContainer}>
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
@@ -160,10 +160,10 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
     gap: "2rem",
     width: "100%",
-    maxWidth: "1200px",
+    maxWidth: "1000px",
     paddingTop: "2rem",
   },
   card: {

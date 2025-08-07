@@ -80,8 +80,8 @@ const DesignFormPage = () => {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selections, setSelections] = useState<Record<string, string>>({});
-  const [isColorPickerVisible, setColorPickerVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isColorPickerVisible, setColorPickerVisible] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [tempColor, setTempColor] = useState("#b3e5fc");
 
   const handleImpressMe = async (finalSelections: Record<string, string>) => {
@@ -206,7 +206,7 @@ const DesignFormPage = () => {
       backgroundColor: "#FFFFFF",
       display: "flex",
       flexDirection: "column" as "column",
-      justifyContent: "space-between",
+      justifyContent: "space-evenly",
       alignItems: "center",
       padding: "40px",
 

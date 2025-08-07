@@ -97,14 +97,14 @@ const MyDesignsPage = () => {
   if (error) return <div style={styles.centered}>Error: {error}</div>;
 
   return (
-    <div style={styles.outerContainer}>
-      <div style={styles.pageContainer}>
+    <div >
+     <div style={styles.pageContainer}>
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
             <h1 style={styles.title}>My Saved Designs</h1>
           </div>
 
-          <div style={styles.bottomContent}>
+         
             <div style={styles.sortContainer}>
               <span style={styles.subtitle}>Sort by:</span>
               <button
@@ -130,6 +130,9 @@ const MyDesignsPage = () => {
                 <MdFavorite />
               </button>
             </div>
+
+
+ <div style={styles.bottomContent}>
             {sortedDesigns.length === 0 ? (
               <p style={styles.centered}>You have no saved designs yet.</p>
             ) : (
@@ -188,25 +191,31 @@ const styles: { [key: string]: React.CSSProperties } = {
     justifyContent: "center",
     alignItems: "center",
   },
-  pageContainer: {
-    display: "flex",
-    width: "100%",
-    height: "1080px",
-    fontFamily: "sans-serif",
-    boxShadow: "0 0px 20px #5f2461",
-    transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
-    transformOrigin: "top center",
-    overflow: "hidden",
-  },
-  centeredContent: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
-    padding: "0 2rem",
-  },
-  headerCircle: {
+pageContainer: {
+  display: "flex",
+  width: "100%",
+  height: "100%", // instead of 1080px
+  fontFamily: "sans-serif",
+  boxShadow: "0 0px 20px #5f2461",
+  transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
+  transformOrigin: "top center",
+},
+
+
+centeredContent: {
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "100%",
+  padding: "0 2rem",
+  overflow: "hidden",
+ // backgroundColor: "#e70000ff",
+  height: "100%",
+  marginBottom: "20px",
+},
+
+headerCircle: {
     width: "120%",
     height: "300px",
     backgroundColor: Colors.lightDustyBroun,
@@ -219,6 +228,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     position: "relative",
     top: -100,
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    
   },
   title: {
     fontFamily: "PottaOne, sans-serif",
@@ -227,43 +237,54 @@ const styles: { [key: string]: React.CSSProperties } = {
     textAlign: "center",
     position: "relative",
     top: "30px",
+    
   },
-  bottomContent: {
-    textAlign: "center",
-    marginTop: "-100px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "100%",
-    paddingTop: "2rem",
-  },
-  centered: { textAlign: "center", marginTop: "2rem" },
+bottomContent: {
+  flex: 1,
+  overflowY: "auto",
+  marginTop: "2rem",
+  paddingTop: "2rem",
+  width: "100%",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  //backgroundColor: "#00ff11ff",
+},
+
+
+centered: { textAlign: "center", marginTop: "2rem" },
   subtitle: {
     fontFamily: "Inter, sans-serif",
     fontSize: "1.69rem",
     fontWeight: "600",
     color: Colors.greyAzure,
     textTransform: "uppercase",
-    margin: 0,
+   
   },
   sortContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     gap: "1rem",
+   //     backgroundColor: "#0105fbff",
   },
   sortButton: {
     padding: "0.5rem 1rem",
-    border: "1px solid #ccc",
+    borderColor: Colors.teal,
+    border: "1px solid ",
     borderRadius: "20px",
     background: "white",
     cursor: "pointer",
+    color: Colors.teal,
+    transition: "background-color 0.3s",
   },
   activeSortButton: {
     padding: "0.5rem 1rem",
-    border: "1px solid #333",
+    borderColor: Colors.teal,
+    border: "1px solid ",
     borderRadius: "20px",
-    background: "#333",
+    background: Colors.teal,
     color: "white",
     cursor: "pointer",
   },
@@ -273,6 +294,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     gap: "2rem",
     width: "100%",
     maxWidth: "1200px",
+    //    backgroundColor: "#f800d3ff",
   },
   card: {
     border: "1px solid #eee",
