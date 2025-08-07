@@ -1,6 +1,8 @@
-import React from 'react';
-import './Layout.css'; // We'll create this file next
+import React, {useState} from 'react';
+import './Layout.css'; 
 import Header from './Header';
+import LoginModal from '../pages/LoginModal';
+import { useLoginModal } from '../lib/LoginModalContext';
 
 
 // A simple placeholder for the Footer component
@@ -12,13 +14,16 @@ const Footer = () => (
 
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+    const { isLoginModalOpen, setIsLoginModalOpen } = useLoginModal();
+
   return (
     <div className="app-layout ">
       <Header />
-      <main className="main-content">
+      <main className={`main-content ${isLoginModalOpen ? 'blurred' : ''}`}>
         {children}
       </main>
       <Footer />
+       {isLoginModalOpen && <LoginModal onClose={() => setIsLoginModalOpen(false)} />}
     </div>
   );
 };
@@ -35,24 +40,3 @@ export default Layout;
 
 
 
-
-
-// =================== OLD ========================
-
-// import Header from './Header';
-// import Footer from './Footer';
-
-
-
-
-// const Layout = ({ children }: { children: React.ReactNode }) => {
-//   return (
-//     <>
-//       <Header />
-//       <main>{children}</main>
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default Layout;

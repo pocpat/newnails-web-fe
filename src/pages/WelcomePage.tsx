@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { Colors } from '../lib/colors';
+import React, { useState } from 'react';
+
+  import { signOut } from 'firebase/auth';
+import { auth } from '../lib/firebase';
+import { useLoginModal } from '../lib/LoginModalContext'; 
 // It's good practice to define styles in a separate object or file.
 // This keeps the JSX clean and makes the styles easier to manage.
 const styles = `
@@ -161,7 +166,21 @@ const styles = `
 
 const WelcomePage = () => {
   const { user, loading } = useAuth();
+  const { setIsLoginModalOpen } = useLoginModal();
   const navigate = useNavigate();
+
+
+
+
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
+
+
 
   // This single handler now correctly routes the user based on auth state.
   // If they are logged in, they go to /design. If not, they go to /login.
@@ -169,7 +188,7 @@ const WelcomePage = () => {
     if (user) {
       navigate('/design');
     } else {
-      navigate('/login');
+       setIsLoginModalOpen(true); 
     }
   };
 
@@ -184,7 +203,7 @@ const WelcomePage = () => {
       {/* This injects our CSS into the page. */}
       <style>{styles}</style>
       
-      <div className="welcome-container">
+      <div className={`welcome-container `}>
         <div className="left-pane">
           <img src="/hero-img.png" alt="Floral nail art design" className="hero-image" />
         </div>
@@ -198,14 +217,36 @@ const WelcomePage = () => {
 
           <p className="subheading-dark">Your creative journey starts here</p>
 
-          {/* The button's text is always "START" to match the design.
-              The onClick handler cleverly decides where to go.
-              It's disabled during the initial auth check. */}
-          <button onClick={handleStart} disabled={loading} className="start-button">
-            Start
-          </button>
-        </div>
-      </div>
+         
+
+{/* START button: Disabled if not logged in, otherwise navigates to design or opens modal */}
+  <button
+    onClick={handleStart}
+    disabled={loading}
+    className="start-button"
+  >
+    Start
+  </button>
+
+  {/* LOGIN/LOGOUT Button */}
+  {user ? (
+    <button
+      onClick={handleLogout}
+      className="start-button"
+    >
+      Logout
+    </button>
+  ) : (
+    <button
+      onClick={() => setIsLoginModalOpen(true)} // <--- OPENS LOGIN MODAL
+      disabled={loading}
+      className="start-button"
+    >
+      Login
+    </button>
+  )}
+  </div>
+  </div>
     </>
   );
 };
