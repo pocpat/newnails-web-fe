@@ -81,7 +81,7 @@ const DesignFormPage = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [isColorPickerVisible, setColorPickerVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [tempColor, setTempColor] = useState("#b3e5fc");
 
   const handleImpressMe = async (finalSelections: Record<string, string>) => {

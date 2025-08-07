@@ -5,8 +5,6 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { BiSolidTimeFive } from "react-icons/bi";
 import { Colors } from "../lib/colors";
-import bgColor from "../assets/images/bg1.png";
-
 
 interface Design {
   id: string;
@@ -33,31 +31,25 @@ const MyDesignsPage = () => {
   useEffect(() => {
     const fetchDesigns = async () => {
       try {
-        console.log("Fetching designs...");
         setLoading(true);
         const fetchedDesigns: ApiDesign[] = await getMyDesigns();
-        console.log("Fetched designs data:", fetchedDesigns);
 
         if (!Array.isArray(fetchedDesigns)) {
           throw new Error("Fetched data is not an array.");
         }
 
-        // The API sends 'imageUrl', and we map '_id' to 'id' for consistency.
         const formattedDesigns = fetchedDesigns.map((design: ApiDesign) => ({
           id: design._id,
-          imageUrl: design.imageUrl, // Use the correct property from the API
+          imageUrl: design.imageUrl,
           prompt: design.prompt,
           isFavorite: design.isFavorite,
           createdAt: design.createdAt,
         }));
-        console.log("Formatted designs:", formattedDesigns);
         setDesigns(formattedDesigns);
       } catch (err: any) {
-        console.error("Error fetching or processing designs:", err);
         setError(err.message || "Failed to fetch designs.");
       } finally {
         setLoading(false);
-        console.log("Finished fetching.");
       }
     };
     fetchDesigns();
@@ -75,7 +67,6 @@ const MyDesignsPage = () => {
 
   const handleToggleFavorite = async (designId: string) => {
     const originalDesigns = designs;
-    // Optimistically update the UI
     setDesigns((prevDesigns) =>
       prevDesigns.map((d) =>
         d.id === designId ? { ...d, isFavorite: !d.isFavorite } : d
@@ -84,7 +75,6 @@ const MyDesignsPage = () => {
     try {
       await toggleFavorite(designId);
     } catch (error) {
-      // Revert the UI if the API call fails
       setDesigns(originalDesigns);
       alert("Failed to update favorite status.");
     }
@@ -107,85 +97,147 @@ const MyDesignsPage = () => {
   if (error) return <div style={styles.centered}>Error: {error}</div>;
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>My Saved Designs</h1>
-      <div style={styles.sortContainer}>
-        <span style={styles.subtitle}>Sort by:</span>
-        <button
-          onClick={() => setSortOrder("recent")}
-          aria-label="Sort by recent"
-          style={
-            sortOrder === "recent" ? styles.activeSortButton : styles.sortButton
-          }
-        >
-          <BiSolidTimeFive />
-        </button>
-        <button
-          onClick={() => setSortOrder("favorites")}
-          aria-label="Sort by favorites"
-          style={
-            sortOrder === "favorites"
-              ? styles.activeSortButton
-              : styles.sortButton
-          }
-        >
-          <MdFavorite />
-        </button>
-      </div>
-      {sortedDesigns.length === 0 ? (
-        <p style={styles.centered}>You have no saved designs yet.</p>
-      ) : (
-        <div style={styles.grid}>
-          {sortedDesigns.map((design) => (
-            <div key={design.id} style={styles.card}>
+    <div style={styles.outerContainer}>
+      <div style={styles.pageContainer}>
+        <div style={styles.centeredContent}>
+          <div style={styles.headerCircle}>
+            <h1 style={styles.title}>My Saved Designs</h1>
+          </div>
 
-{/* generated IMG */}              
-              <img
-                src={design.imageUrl}
-                alt={design.prompt}
-                style={styles.image}
-              />
-
-{/* card body */}              
-              <div style={styles.cardBody}>
-                <div style={styles.cardBodyOverlay} />
-                <div style={styles.buttonWrapper}>
-                  <button
-                    aria-label="favorite"
-                    aria-pressed={design.isFavorite}
-                    onClick={() => handleToggleFavorite(design.id)}
-                    style={styles.iconButton}
-                  >
-                    {design.isFavorite ? <MdFavorite /> : <MdFavoriteBorder />}
-                  </button>
-                  <button
-                    aria-label="delete"
-                    onClick={() => handleDeleteDesign(design.id)}
-                    style={{ ...styles.iconButton, ...styles.deleteButton }}
-                  >
-                    <RiDeleteBin6Line />
-                  </button>
-                </div>
-              </div>
+          <div style={styles.bottomContent}>
+            <div style={styles.sortContainer}>
+              <span style={styles.subtitle}>Sort by:</span>
+              <button
+                onClick={() => setSortOrder("recent")}
+                aria-label="Sort by recent"
+                style={
+                  sortOrder === "recent"
+                    ? styles.activeSortButton
+                    : styles.sortButton
+                }
+              >
+                <BiSolidTimeFive />
+              </button>
+              <button
+                onClick={() => setSortOrder("favorites")}
+                aria-label="Sort by favorites"
+                style={
+                  sortOrder === "favorites"
+                    ? styles.activeSortButton
+                    : styles.sortButton
+                }
+              >
+                <MdFavorite />
+              </button>
             </div>
-          ))}
+            {sortedDesigns.length === 0 ? (
+              <p style={styles.centered}>You have no saved designs yet.</p>
+            ) : (
+              <div style={styles.grid}>
+                {sortedDesigns.map((design) => (
+                  <div key={design.id} style={styles.card}>
+                    <img
+                      src={design.imageUrl}
+                      alt={design.prompt}
+                      style={styles.image}
+                    />
+                    <div style={styles.cardBody}>
+                      <div style={styles.cardBodyOverlay} />
+                      <div style={styles.buttonWrapper}>
+                        <button
+                          aria-label="favorite"
+                          aria-pressed={design.isFavorite}
+                          onClick={() => handleToggleFavorite(design.id)}
+                          style={styles.iconButton}
+                        >
+                          {design.isFavorite ? (
+                            <MdFavorite />
+                          ) : (
+                            <MdFavoriteBorder />
+                          )}
+                        </button>
+                        <button
+                          aria-label="delete"
+                          onClick={() => handleDeleteDesign(design.id)}
+                          style={{
+                            ...styles.iconButton,
+                            ...styles.deleteButton,
+                          }}
+                        >
+                          <RiDeleteBin6Line />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
-  container: { padding: "2rem", fontFamily: "sans-serif" },
-  centered: { textAlign: "center", marginTop: "2rem" },
+  outerContainer: {
+    width: "100%",
+    minHeight: "calc(100vh - 70px)",
+    backgroundColor: "#FFFFFF",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  pageContainer: {
+    display: "flex",
+    width: "100%",
+    height: "1080px",
+    fontFamily: "sans-serif",
+    boxShadow: "0 0px 20px #5f2461",
+    transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
+    transformOrigin: "top center",
+    overflow: "hidden",
+  },
+  centeredContent: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    padding: "0 2rem",
+  },
+  headerCircle: {
+    width: "120%",
+    height: "300px",
+    backgroundColor: Colors.lightDustyBroun,
+    borderBottomLeftRadius: "50%",
+    borderBottomRightRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "50px",
+    position: "relative",
+    top: -100,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+  },
   title: {
     fontFamily: "PottaOne, sans-serif",
     fontSize: "3rem",
     color: Colors.darkCherry,
-    textAlign: "center" as "center", // Center the title
-    width: "100%",
-    marginBottom: "20px",
+    textAlign: "center",
+    position: "relative",
+    top: "30px",
   },
+  bottomContent: {
+    textAlign: "center",
+    marginTop: "-100px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    paddingTop: "2rem",
+  },
+  centered: { textAlign: "center", marginTop: "2rem" },
   subtitle: {
     fontFamily: "Inter, sans-serif",
     fontSize: "1.69rem",
@@ -194,21 +246,10 @@ const styles: { [key: string]: React.CSSProperties } = {
     textTransform: "uppercase",
     margin: 0,
   },
-  subtitleDetail: {
-    fontFamily: "Inter, sans-serif",
-    fontSize: "2.25rem",
-    fontWeight: "400",
-    color: Colors.greyAzure,
-    textTransform: "uppercase",
-    margin: 0,
-    letterSpacing: "1.6px",
-  },
-
   sortContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "2rem",
     gap: "1rem",
   },
   sortButton: {
@@ -230,6 +271,8 @@ const styles: { [key: string]: React.CSSProperties } = {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
     gap: "2rem",
+    width: "100%",
+    maxWidth: "1200px",
   },
   card: {
     border: "1px solid #eee",
@@ -246,33 +289,32 @@ const styles: { [key: string]: React.CSSProperties } = {
     background: "#f0f0f0",
   },
   cardBody: {
-    position: "relative", // Needed to position the overlay and wrapper inside
+    position: "relative",
     padding: "1rem",
     display: "flex",
-    justifyContent: "center", // Center the content wrapper
+    justifyContent: "center",
     alignItems: "center",
     background: Colors.lightDustyBroun,
-    overflow: "hidden", // Ensures the overlay's rounded corners are clipped
+    overflow: "hidden",
   },
   cardBodyOverlay: {
     position: "absolute",
     top: "0%",
     left: "50%",
     transform: "translate(-50%, -0%)",
-    width: "90%", // 30% smaller
-    height: "90%", // 30% smaller
-    backgroundColor: "rgba(255, 255, 255, 0.2)", // White with 50% transparency
+    width: "90%",
+    height: "90%",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: "0 0 16px 16px ",
-    zIndex: 1, // Place it behind the buttons
+    zIndex: 1,
   },
   buttonWrapper: {
     position: "relative",
-    zIndex: 2, // Place buttons on top of the overlay
+    zIndex: 2,
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
- 
   },
   iconButton: {
     background: "none",
@@ -280,7 +322,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     cursor: "pointer",
     fontSize: "1.5rem",
     outline: "none",
-    color:Colors.solidTeal,
+    color: Colors.solidTeal,
   },
   deleteButton: { color: Colors.solidTeal },
 };
