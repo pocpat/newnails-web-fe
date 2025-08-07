@@ -50,21 +50,37 @@ const ResultsPage = () => {
       <div style={styles.grid}>
         {generatedImages.map((url: string, index: number) => (
           <div key={index} style={styles.card}>
+
+{/* generated IMG */}
             <img src={url} alt={`Generated design ${index + 1}`} style={styles.image} />
-            <div style={styles.buttonContainer}>
-              <button onClick={() => handleFullScreen(url)} style={styles.button}>
-             
+ 
+
+ {/* card body */}              
+              <div style={styles.cardBody}>
+                <div style={styles.cardBodyOverlay} />
+                <div style={styles.buttonWrapper}>
+
+
+ {/* full screen button */}           
+            <div style={styles.buttonWrapper}>
+              <button onClick={() => handleFullScreen(url)} style={styles.iconButton}>
                <ImEnlarge />
               </button>
+{/* Save button */}
               <button
                 onClick={() => handleSave(url)}
                 disabled={savedImages.includes(url) || saving === url}
-                style={styles.button}
+                style={styles.iconButton}
               >
                 {savedImages.includes(url) ? <BsFillSave2Fill /> : saving === url ? 'Saving...' : <GrSave />}
               </button>
+
             </div>
           </div>
+
+      </div>
+              </div>
+          
         ))}
       </div>
       <FullScreenImageModal
@@ -78,8 +94,8 @@ const ResultsPage = () => {
 
 // Basic styling
 const styles: { [key: string]: React.CSSProperties } = {
-  container: { padding: '2rem' },
-  title: {
+container: { padding: "2rem", fontFamily: "sans-serif" },
+  centered: { textAlign: "center", marginTop: "2rem" },  title: {
         fontFamily: 'PottaOne, sans-serif',
         fontSize: '3rem',
         color: Colors.darkCherry,
@@ -87,22 +103,76 @@ const styles: { [key: string]: React.CSSProperties } = {
         width: '100%',
         marginBottom: '20px',
       },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-    gap: '1rem',
+
+    grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gap: "2rem",
   },
-  card: {
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    position: 'relative',
+  // card: {
+  //   border: '1px solid #ccc',
+  //   borderRadius: '8px',
+  //   overflow: 'hidden',
+  //   position: 'relative',
+  // },
+  // image: {
+  //   width: '100%',
+  //   height: 'auto',
+  //   display: 'block',
+  // },
+  
+   card: {
+    border: "1px solid #eee",
+    borderRadius: "8px",
+    overflow: "hidden",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+    transition: "transform 0.2s",
   },
   image: {
-    width: '100%',
-    height: 'auto',
-    display: 'block',
+    width: "100%",
+    height: "250px",
+    objectFit: "cover",
+    display: "block",
+    background: "#f0f0f0",
   },
+  cardBody: {
+    position: "relative", // Needed to position the overlay and wrapper inside
+    padding: "1rem",
+    display: "flex",
+    justifyContent: "center", // Center the content wrapper
+    alignItems: "center",
+    background: Colors.lightDustyBroun,
+    overflow: "hidden", // Ensures the overlay's rounded corners are clipped
+  },
+  cardBodyOverlay: {
+    position: "absolute",
+    top: "0%",
+    left: "50%",
+    transform: "translate(-50%, -0%)",
+    width: "90%", // 30% smaller
+    height: "90%", // 30% smaller
+    backgroundColor: "rgba(255, 255, 255, 0.2)", // White with 50% transparency
+    borderRadius: "0 0 16px 16px ",
+    zIndex: 1, // Place it behind the buttons
+  },
+  buttonWrapper: {
+    position: "relative",
+    zIndex: 2, // Place buttons on top of the overlay
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+ 
+  },
+  iconButton: {
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "1.5rem",
+    outline: "none",
+    color:Colors.solidTeal,
+  },
+
   buttonContainer: {
     display: 'flex',
     justifyContent: 'space-around',

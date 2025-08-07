@@ -138,11 +138,15 @@ const MyDesignsPage = () => {
         <div style={styles.grid}>
           {sortedDesigns.map((design) => (
             <div key={design.id} style={styles.card}>
+
+{/* generated IMG */}              
               <img
                 src={design.imageUrl}
                 alt={design.prompt}
                 style={styles.image}
               />
+
+{/* card body */}              
               <div style={styles.cardBody}>
                 <div style={styles.cardBodyOverlay} />
                 <div style={styles.buttonWrapper}>
@@ -268,6 +272,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+ 
   },
   iconButton: {
     background: "none",
@@ -275,8 +280,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     cursor: "pointer",
     fontSize: "1.5rem",
     outline: "none",
+    color:Colors.solidTeal,
   },
-  deleteButton: { color: "red" },
+  deleteButton: { color: Colors.solidTeal },
 };
 
 export default MyDesignsPage;
