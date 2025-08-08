@@ -25,7 +25,6 @@ import dots from "../../src/assets/images/style_dots.svg";
 import glitter from "../../src/assets/images/style_glitter.png";
 import LoadingPage from "../../src/pages/LoadingPage";
 
-
 // --- Constants ---
 const IMAGE_GENERATION_MODELS = [
   "stabilityai/sdxl-turbo:free",
@@ -58,7 +57,10 @@ const styleOptions = [
   { value: "glitter", icon: glitter },
 ];
 const colorConfigOptions = [
-  { value: "Pick a Base Color", icon: "../../src/assets/images/color_select.svg" },
+  {
+    value: "Pick a Base Color",
+    icon: "../../src/assets/images/color_select.svg",
+  },
   { value: "unified", icon: "../../src/assets/images/color_mono.svg" },
   { value: "harmonious", icon: "../../src/assets/images/color_analog.svg" },
   { value: "contrast", icon: "../../src/assets/images/color_complim.svg" },
@@ -73,127 +75,53 @@ const steps = [
   { id: "color", title: "Color Palette", options: colorConfigOptions },
 ];
 
-
-
-
-
-
-
 // --- Component ---
 const DesignFormPage = () => {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selections, setSelections] = useState<Record<string, string>>({});
-  const [isColorPickerVisible, setColorPickerVisible] = useState(false);
+  const [isColorPickerVisible, setColorPickerVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
-const [tempColor, setTempColor] = useState('#b3e5fc');
+  const [tempColor, setTempColor] = useState("#b3e5fc");
 
+  const handleImpressMe = async (finalSelections: Record<string, string>) => {
+    setLoading(true);
+    try {
+      // 1. We have all the raw selections: length, shape, style, color, baseColor
+      console.log("Sending raw selections to backend:", finalSelections);
 
+      // 2. Pass all selections directly to the backend API call.
+      // The `generateDesigns` function will stringify this object.
+      const results = await Promise.all(
+        IMAGE_GENERATION_MODELS.map((model) =>
+          generateDesigns({
+            ...finalSelections, // Pass all selections
+            model: model,
+            num_images: 1,
+            width: 1024,
+            height: 1024,
+          })
+        )
+      );
 
+      const imageUrls = results.flatMap((result) => result.imageUrls);
 
-  // const handleImpressMe = async (finalSelections: Record<string, string>) => {
-  //   setLoading(true);
-  //   try {
+      // 3. Navigate to the results page.
+      // The prompt is no longer needed here as it's built on the backend.
+      navigate("/results", {
+        state: { generatedImages: imageUrls },
+      });
 
-  //     const { length, shape, style, color, baseColor } = finalSelections;
-  //     let prompt = `A detailed closeup Nail design with ${length} length, ${shape} shape, ${style} style`;
+      return true;
+    } catch (error: any) {
+      setLoading(false);
+      console.error("Fatal error in handleImpressMe:", error);
+      alert(`Generation Failed: ${error.message}`);
+      return false;
+    }
+  };
 
-  //     if (baseColor) {
-  //       prompt += `, using a base color of ${baseColor}`;
-  //     }
-  //     if (color && color !== "Pick a Base Color") {
-  //       prompt += ` in a ${color} color configuration.`;
-  //     } else {
-  //       prompt += ".";
-  //     }
-
-  //     const imagePromises = IMAGE_GENERATION_MODELS.map((model) =>
-  //       generateDesigns({
-  //         prompt,
-  //         model,
-  //         num_images: 1,
-  //         width: 1024,
-  //         height: 1024,
-  //       })
-  //     );
-
-  //     const results = await Promise.all(imagePromises);
-  //     const imageUrls = results.flatMap((result) => result.imageUrls);
-
-  //     navigate("/results", {
-  //       state: { generatedImages: imageUrls, prompt: prompt },
-  //     });
-  //     return true;
-      
-  //   } catch (error: any) {
-  //     setLoading(false);
-  //     console.error("Fatal error in handleImpressMe:", error);
-  //     alert(`Generation Failed: ${error.message}`);
-  //     return false;
-  //   }
-  // };
-
-
-
-
-
-
-
-
-const handleImpressMe = async (finalSelections: Record<string, string>) => {
-  setLoading(true);
-  try {
-    // 1. We have all the raw selections: length, shape, style, color, baseColor
-    console.log("Sending raw selections to backend:", finalSelections);
-
-    // 2. Pass all selections directly to the backend API call.
-    // The `generateDesigns` function will stringify this object.
-    const results = await Promise.all(
-      IMAGE_GENERATION_MODELS.map((model) =>
-        generateDesigns({
-          ...finalSelections, // Pass all selections
-          model: model,
-          num_images: 1,
-          width: 1024,
-          height: 1024,
-        })
-      )
-    );
-
-    const imageUrls = results.flatMap((result) => result.imageUrls);
-
-    // 3. Navigate to the results page.
-    // The prompt is no longer needed here as it's built on the backend.
-    navigate("/results", {
-      state: { generatedImages: imageUrls },
-    });
-
-    return true;
-  } catch (error: any) {
-    setLoading(false);
-    console.error("Fatal error in handleImpressMe:", error);
-    alert(`Generation Failed: ${error.message}`);
-    return false;
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    const handleTempColorChange = (color: any) => {
+  const handleTempColorChange = (color: any) => {
     setTempColor(color.hexString);
   };
 
@@ -201,13 +129,10 @@ const handleImpressMe = async (finalSelections: Record<string, string>) => {
     const currentStep = steps[currentStepIndex];
 
     if (currentStep.id === "color" && value === "Pick a Base Color") {
-       setTempColor(selections.baseColor || '#b3e5fc');
+      setTempColor(selections.baseColor || "#b3e5fc");
       setColorPickerVisible(true);
       return;
     }
-//  const handleTempColorChange = (color: any) => {
-//     setTempColor(color.hexString);
-//   };
     const newSelections = { ...selections, [currentStep.id]: value };
 
     setSelections(newSelections);
@@ -223,27 +148,21 @@ const handleImpressMe = async (finalSelections: Record<string, string>) => {
     }
   };
 
-  // const handleColorSelect = (hex: string) => {
-  //   setSelections({ ...selections, baseColor: hex });
-  //   setColorPickerVisible(false);
-  //   // No longer advances the step automatically
-  // };
 
+  const handleColorConfirm = () => {
+    // Add this log to see what you are trying to set
+    console.log(
+      `[DesignFormPage] Confirming color. Setting baseColor to: ${tempColor}`
+    );
 
+    setSelections((prevSelections) => ({
+      ...prevSelections,
+      baseColor: tempColor,
+    }));
+    setColorPickerVisible(false);
+  };
 
-
-const handleColorConfirm = () => {
-  // Add this log to see what you are trying to set
-  console.log(`[DesignFormPage] Confirming color. Setting baseColor to: ${tempColor}`);
-
-  setSelections(prevSelections => ({
-    ...prevSelections,
-    baseColor: tempColor
-  }));
-  setColorPickerVisible(false);
-};
-
- const currentStep = steps[currentStepIndex];
+  const currentStep = steps[currentStepIndex];
 
   const styles: { [key: string]: React.CSSProperties } = {
     outerContainer: {
@@ -256,10 +175,10 @@ const handleColorConfirm = () => {
     },
     pageContainer: {
       display: "flex",
-      
-      width: '100%',
+
+      width: "100%",
       height: "1080px",
-      
+
       fontFamily: "sans-serif",
       boxShadow: "0 0px 20px #5f2461",
       transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
@@ -272,7 +191,7 @@ const handleColorConfirm = () => {
       backgroundColor: Colors.lightDustyBroun,
       display: "flex",
       justifyContent: "start",
-    
+
       alignItems: "center",
       borderRadius: "0 540px 540px 0", // Creates a semi-circle on the right
     },
@@ -280,17 +199,17 @@ const handleColorConfirm = () => {
       width: "80%",
       maxWidth: "400px",
       height: "auto",
-        marginLeft: "20px",
+      marginLeft: "20px",
     },
     rightPanel: {
       flex: 1,
       backgroundColor: "#FFFFFF",
       display: "flex",
       flexDirection: "column" as "column",
-      justifyContent: "space-between",
+      justifyContent: "space-evenly",
       alignItems: "center",
       padding: "40px",
-    
+
       paddingBottom: "3.33%",
     },
     title: {
@@ -338,10 +257,13 @@ const handleColorConfirm = () => {
     },
   };
 
-if (loading) {
-  return <LoadingPage />;
-}
- console.log(`[DesignFormPage] Rendering with selections.baseColor:`, selections.baseColor);
+  if (loading) {
+    return <LoadingPage />;
+  }
+  console.log(
+    `[DesignFormPage] Rendering with selections.baseColor:`,
+    selections.baseColor
+  );
   return (
     <div style={styles.outerContainer}>
       <div style={styles.pageContainer}>
@@ -388,15 +310,14 @@ if (loading) {
           </div>
         </div>
 
- <ColorPickerModal
+        <ColorPickerModal
           isVisible={isColorPickerVisible}
           currentColor={tempColor}
-          onColorChange={handleTempColorChange} 
+          onColorChange={handleTempColorChange}
           onSelectColor={handleColorConfirm}
           onClose={() => setColorPickerVisible(false)}
         />
-    
-         </div>
+      </div>
     </div>
   );
 };

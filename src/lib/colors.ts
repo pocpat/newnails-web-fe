@@ -18,9 +18,10 @@ export const Colors = {
   lightRedSalmon: '#FF6B6B',
   green: '#4CAF50',
   dustyBroun: '#615c62',
-  lightDustyBroun: '#776979',
+ lightDustyBroun: '#776979',
   solidTeal: '#a6e4df',
   darkBlue:'#004aad',
   darkCherry:'#5f2461',
   greyAzure:'#9dafbf',
+  lightPinkPurple:'#f1d6ffff',
 };

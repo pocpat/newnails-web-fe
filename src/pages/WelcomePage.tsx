@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { Colors } from '../lib/colors';
+import React, { useState } from 'react';
+
+  import { signOut } from 'firebase/auth';
+import { auth } from '../lib/firebase';
+import { useLoginModal } from '../lib/LoginModalContext'; 
 // It's good practice to define styles in a separate object or file.
 // This keeps the JSX clean and makes the styles easier to manage.
 const styles = `
@@ -114,6 +119,13 @@ const styles = `
     margin: 0;
   }
 
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Creates space between the buttons */
+    margin-top: 2rem;
+  }
+
   .start-button {
     background-color: #5D3A67; /* Eyedropped from your image */
     color: white;
@@ -126,6 +138,7 @@ const styles = `
     margin-top: 2rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-transform: uppercase;
+    margin-top: 0;
   }
 
   .start-button:hover:not(:disabled) {
@@ -161,16 +174,28 @@ const styles = `
 
 const WelcomePage = () => {
   const { user, loading } = useAuth();
+  const { setIsLoginModalOpen } = useLoginModal();
   const navigate = useNavigate();
+
+
+
+
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
+
+
 
   // This single handler now correctly routes the user based on auth state.
   // If they are logged in, they go to /design. If not, they go to /login.
   const handleStart = () => {
-    if (user) {
+   
       navigate('/design');
-    } else {
-      navigate('/login');
-    }
+   
   };
 
   // The loading state is important to prevent users from clicking before
@@ -184,7 +209,7 @@ const WelcomePage = () => {
       {/* This injects our CSS into the page. */}
       <style>{styles}</style>
       
-      <div className="welcome-container">
+      <div className={`welcome-container `}>
         <div className="left-pane">
           <img src="/hero-img.png" alt="Floral nail art design" className="hero-image" />
         </div>
@@ -198,14 +223,42 @@ const WelcomePage = () => {
 
           <p className="subheading-dark">Your creative journey starts here</p>
 
-          {/* The button's text is always "START" to match the design.
-              The onClick handler cleverly decides where to go.
-              It's disabled during the initial auth check. */}
-          <button onClick={handleStart} disabled={loading} className="start-button">
-            Start
-          </button>
-        </div>
-      </div>
+         
+
+{/* START button: Disabled if not logged in, otherwise navigates to design or opens modal */}
+<div className="button-container">
+  {/* START button: Now disabled if no user OR loading */}
+  <button
+    onClick={handleStart}
+    disabled={!user || loading}
+    className="start-button"
+  >
+    Start
+  </button>
+
+  {/* LOGIN/LOGOUT Button */}
+  {user ? (
+    <button
+      onClick={handleLogout}
+      className="start-button" // You can create a different class for this if you want
+    >
+      Logout
+    </button>
+  ) : (
+    <button
+      onClick={() => setIsLoginModalOpen(true)}
+      disabled={loading}
+      className="start-button"
+    >
+      Login
+    </button>
+  )}
+</div>
+
+
+
+  </div>
+  </div>
     </>
   );
 };

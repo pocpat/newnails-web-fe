@@ -11,6 +11,27 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-display: swap;
+   font-weight: 400;
+  font-style: normal;
+}
+
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-display: swap;
+   font-weight: 600;
+  font-style: normal;
+}
+
+
+
+
 
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;

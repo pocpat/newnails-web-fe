@@ -4,7 +4,7 @@
   align-items: center;
   padding: 1rem 2rem;
   background-color: #333;
-  color: white;
+  color:'#2EC4B6';
   position: relative;
   z-index: 10;
    font-family: "PottaOne-Regular", sans-serif;
@@ -12,7 +12,7 @@
 
 .header-logo {
   text-decoration: none;
-  color: white;
+  color: '#2EC4B6';
   font-size: 1.5rem;
   font-weight: bold;
  
@@ -42,14 +42,15 @@
 
 .header-menu-icon {
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* <-- makes the dots vertical */
+  justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 4px; /* space between dots */
 }
 
 .header-menu-dot {
-  width: 5px; /* Make it huge */
-  height: 5px; /* Make it huge */
+  width: 6px; /* Make it huge */
+  height: 6px; /* Make it huge */
   background-color: white;
   border-radius: 50%;
   z-index: 1  ;}
@@ -84,12 +85,14 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
-  font-family: inherit;
+  font-family: "Inter-400-normal", sans-serif;
   
 }
 
 .header-menu-link:hover,
 .header-menu-button:hover {
   background-color: #f5f5f5;
+  font-family: "Inter-400-normal", sans-serif;
+  color:"#5f2461";
 }
 
