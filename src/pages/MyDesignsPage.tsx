@@ -143,6 +143,7 @@ const MyDesignsPage = () => {
                       src={design.imageUrl}
                       alt={design.prompt}
                       style={styles.image}
+                       onClick={() => handleFullScreen(url)}
                     />
                     <div style={styles.cardBody}>
                       <div style={styles.cardBodyOverlay} />

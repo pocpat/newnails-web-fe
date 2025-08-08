@@ -119,6 +119,13 @@ const styles = `
     margin: 0;
   }
 
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Creates space between the buttons */
+    margin-top: 2rem;
+  }
+
   .start-button {
     background-color: #5D3A67; /* Eyedropped from your image */
     color: white;
@@ -131,6 +138,7 @@ const styles = `
     margin-top: 2rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-transform: uppercase;
+    margin-top: 0;
   }
 
   .start-button:hover:not(:disabled) {
@@ -185,11 +193,9 @@ const handleLogout = async () => {
   // This single handler now correctly routes the user based on auth state.
   // If they are logged in, they go to /design. If not, they go to /login.
   const handleStart = () => {
-    if (user) {
+   
       navigate('/design');
-    } else {
-       setIsLoginModalOpen(true); 
-    }
+   
   };
 
   // The loading state is important to prevent users from clicking before
@@ -220,9 +226,11 @@ const handleLogout = async () => {
          
 
 {/* START button: Disabled if not logged in, otherwise navigates to design or opens modal */}
+<div className="button-container">
+  {/* START button: Now disabled if no user OR loading */}
   <button
     onClick={handleStart}
-    disabled={loading}
+    disabled={!user || loading}
     className="start-button"
   >
     Start
@@ -232,19 +240,23 @@ const handleLogout = async () => {
   {user ? (
     <button
       onClick={handleLogout}
-      className="start-button"
+      className="start-button" // You can create a different class for this if you want
     >
       Logout
     </button>
   ) : (
     <button
-      onClick={() => setIsLoginModalOpen(true)} // <--- OPENS LOGIN MODAL
+      onClick={() => setIsLoginModalOpen(true)}
       disabled={loading}
       className="start-button"
     >
       Login
     </button>
   )}
+</div>
+
+
+
   </div>
   </div>
     </>

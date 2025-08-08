@@ -60,6 +60,7 @@ const ResultsPage = () => {
                     src={url}
                     alt={`Generated design ${index + 1}`}
                     style={styles.image}
+                     onClick={() => handleFullScreen(url)}
                   />
                   <div style={styles.cardBody}>
                     <div style={styles.cardBodyOverlay} />
