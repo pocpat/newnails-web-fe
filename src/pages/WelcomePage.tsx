@@ -183,6 +183,7 @@ const WelcomePage = () => {
 const handleLogout = async () => {
   try {
     await signOut(auth);
+   // navigate('/');
   } catch (error) {
     console.error('Logout failed:', error);
   }

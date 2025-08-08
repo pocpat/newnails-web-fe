@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { saveDesign } from "../lib/api";
-import FullScreenImageModal from "../components/FullScreenImageModal";
 import { ImEnlarge } from "react-icons/im";
 import { GrSave } from "react-icons/gr";
 import { BsFillSave2Fill } from "react-icons/bs";
 import { Colors } from "../lib/colors";
+import { useFullScreenImage } from '../hooks/useFullScreenImage';
+import FullScreenImageModal from '../components/FullScreenImageModal';
+
 
 const ResultsPage = () => {
   const location = useLocation();
@@ -35,15 +37,12 @@ const ResultsPage = () => {
     }
   };
 
-  const handleFullScreen = (imageUrl: string) => {
-    setSelectedImageUrl(imageUrl);
-    setIsModalVisible(true);
-  };
+
 
   if (!generatedImages || generatedImages.length === 0) {
     return <div>No images generated. Please go back and try again.</div>;
   }
-
+const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage();
   return (
     <div >
       <div style={styles.pageContainer}>
@@ -60,13 +59,13 @@ const ResultsPage = () => {
                     src={url}
                     alt={`Generated design ${index + 1}`}
                     style={styles.image}
-                     onClick={() => handleFullScreen(url)}
+                     onClick={() => openFullScreen(url)} 
                   />
                   <div style={styles.cardBody}>
                     <div style={styles.cardBodyOverlay} />
                     <div style={styles.buttonWrapper}>
                       <button
-                        onClick={() => handleFullScreen(url)}
+                       onClick={() => openFullScreen(url)} 
                         style={styles.iconButton}
                       >
                         <ImEnlarge />
@@ -89,11 +88,10 @@ const ResultsPage = () => {
                 </div>
               ))}
             </div>
-            <FullScreenImageModal
-              isVisible={isModalVisible}
-              imageUrl={selectedImageUrl}
-              onClose={() => setIsModalVisible(false)}
-            />
+            <FullScreenImageModal 
+        imageUrl={fullScreenImage} 
+        onClose={closeFullScreen} 
+      />
           </div>
         </div>
       </div>

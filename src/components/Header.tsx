@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect  } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -7,12 +7,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './Header.css';
 import { Colors } from '../lib/colors';
 import { useLoginModal } from '../lib/LoginModalContext';
+import LogoSvg from '../assets/images/logo02.svg?react';
+
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useAuth();
   const { setIsLoginModalOpen } = useLoginModal();
   const navigate = useNavigate();
+
+  // --- GET THE CURRENT LOCATION ---
+  const location = useLocation();
+  const { pathname } = location;
+
+  // ---  CREATE A CONDITION VARIABLE FOR CLARITY ---
+  // This will be true for the pages that need the "Start Over" button.
+  const showStartOverButton = pathname === '/results' || pathname === '/my-designs';
+
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -38,8 +50,11 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
+       navigate('/');
+       setIsMenuOpen(false);
       await signOut(auth);
-      setIsMenuOpen(false);
+      
+     
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -50,12 +65,41 @@ const Header = () => {
     setIsMenuOpen(false);     // Close the dropdown menu
   };
 
+ // --- CREATE A HANDLER FOR THE "START OVER" BUTTON ---
+  const handleStartOver = () => {
+    navigate('/design');
+  };
+
 
   return (
    
     <header className="header">
-      <Link to="/" className="header-logo" style={{ color: Colors.teal }}>DiPSY</Link>
-      
+
+{/* LEFT (LOGO) */}
+<div className="header-left">
+        <Link to="/">
+        <LogoSvg className="header-logo-svg" />
+        </Link>
+      </div>      
+
+{/*  MIDDLE (CONDITIONAL CONTENT) */}
+
+<div className="header-middle">
+        {showStartOverButton ? (
+          <button onClick={handleStartOver} className="header-action-button">
+            Start Over
+          </button>
+        ) : (
+          <h1 className="header-title">DiPSY</h1>
+        )}
+      </div>
+
+      {/* RIGHT (3-DOT MENU) */}
+
+<div className="header-right">
+
+
+
        {/* Apply ref here to detect clicks outside the menu container */}
       <div className="header-menu-container" ref={menuRef}>
         <button 
@@ -94,11 +138,9 @@ const Header = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </div></div>
     </header>
   );
 };
 
 export default Header;
-
-
