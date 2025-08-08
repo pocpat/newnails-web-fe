@@ -126,6 +126,7 @@
   font-weight: bold;
   color: #2EC4B6; /* Teal color */
   margin: 0; /* Remove default h1 margin */
+  font-family: 'PottaOne', sans-serif;
 }
 .header-action-button {
   background-color: #2EC4B6; /* Teal background color */
@@ -138,7 +139,7 @@
   cursor: pointer;
   text-transform: uppercase;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: 'PottaOne', sans-serif;
 }
 
 .header-action-button:hover {
