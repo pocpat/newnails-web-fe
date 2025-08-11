@@ -24,6 +24,7 @@ import abstract from "../../src/assets/images/style_abstract.svg";
 import dots from "../../src/assets/images/style_dots.svg";
 import glitter from "../../src/assets/images/style_glitter.png";
 import LoadingPage from "../../src/pages/LoadingPage";
+import FixedSizePageLayout from "../../src/components/FixedSizePageLayout";
 
 // --- Constants ---
 const IMAGE_GENERATION_MODELS = [
@@ -80,7 +81,8 @@ const DesignFormPage = () => {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selections, setSelections] = useState<Record<string, string>>({});
-  const [isColorPickerVisible, setColorPickerVisible] = useState<boolean>(false);
+  const [isColorPickerVisible, setColorPickerVisible] =
+    useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [tempColor, setTempColor] = useState("#b3e5fc");
 
@@ -148,7 +150,6 @@ const DesignFormPage = () => {
     }
   };
 
-
   const handleColorConfirm = () => {
     // Add this log to see what you are trying to set
     console.log(
@@ -175,10 +176,8 @@ const DesignFormPage = () => {
     },
     pageContainer: {
       display: "flex",
-
       width: "100%",
       height: "1080px",
-
       fontFamily: "sans-serif",
       boxShadow: "0 0px 20px #5f2461",
       transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
@@ -191,7 +190,6 @@ const DesignFormPage = () => {
       backgroundColor: Colors.lightDustyBroun,
       display: "flex",
       justifyContent: "start",
-
       alignItems: "center",
       borderRadius: "0 540px 540px 0", // Creates a semi-circle on the right
     },
@@ -205,13 +203,25 @@ const DesignFormPage = () => {
       flex: 1,
       backgroundColor: "#FFFFFF",
       display: "flex",
-      flexDirection: "column" as "column",
-      justifyContent: "space-evenly",
-      alignItems: "center",
+      flexDirection: "column",
       padding: "40px",
-
-      paddingBottom: "3.33%",
     },
+
+    rightTop: {
+      flex: "0 0 33%", // top third
+      display: "flex",
+      justifyContent: "center", // center vertically
+      alignItems: "center", // center horizontally
+      textAlign: "center",
+    },
+
+    rightBottom: {
+      flex: "1 0 auto", // remaining space
+      display: "flex",
+      justifyContent: "center", // center vertically
+      alignItems: "center",
+    },
+
     title: {
       fontFamily: "PottaOne, sans-serif",
       fontSize: "3rem",
@@ -265,16 +275,17 @@ const DesignFormPage = () => {
     selections.baseColor
   );
   return (
-    <div style={styles.outerContainer}>
-      <div style={styles.pageContainer}>
-        <div style={styles.leftPanel}>
-          <img
-            src="../../src/assets/images/hero-img.png"
-            alt="Nail Art"
-            style={styles.heroImage}
-          />
-        </div>
-        <div style={styles.rightPanel}>
+    <div style={styles.pageContainer}>
+      <div style={styles.leftPanel}>
+        <img
+          src="../../src/assets/images/hero-img.png"
+          alt="Nail Art"
+          style={styles.heroImage}
+        />
+      </div>
+
+      <div style={styles.rightPanel}>
+        <div style={styles.rightTop}>
           <div style={styles.topContent}>
             <h1 style={styles.title}>Create Your Masterpiece</h1>
             <div style={styles.progressBarContainer}>
@@ -288,36 +299,36 @@ const DesignFormPage = () => {
               <p style={styles.subtitleDetail}>{currentStep.title}</p>
             </div>
           </div>
-
-          <div style={styles.bottomContent}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentStepIndex}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-                style={{ width: "100%" }}
-              >
-                <SelectionStep
-                  options={currentStep.options}
-                  onSelect={handleSelect}
-                  baseColor={selections.baseColor}
-                  stepId={currentStep.id}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
         </div>
 
-        <ColorPickerModal
-          isVisible={isColorPickerVisible}
-          currentColor={tempColor}
-          onColorChange={handleTempColorChange}
-          onSelectColor={handleColorConfirm}
-          onClose={() => setColorPickerVisible(false)}
-        />
+        <div style={styles.rightBottom}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStepIndex}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
+              style={{ width: "100%" }}
+            >
+              <SelectionStep
+                options={currentStep.options}
+                onSelect={handleSelect}
+                baseColor={selections.baseColor}
+                stepId={currentStep.id}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
+
+      <ColorPickerModal
+        isVisible={isColorPickerVisible}
+        currentColor={tempColor}
+        onColorChange={handleTempColorChange}
+        onSelectColor={handleColorConfirm}
+        onClose={() => setColorPickerVisible(false)}
+      />
     </div>
   );
 };

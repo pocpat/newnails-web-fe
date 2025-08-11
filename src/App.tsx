@@ -17,7 +17,6 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<WelcomePage />} />
-            {/* <Route path="/login" element={<LoginModal />} />*/}
             {/* Protected Routes */}
             <Route path="/design" element={<ProtectedRoute><DesignFormPage /></ProtectedRoute>} />
             <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />

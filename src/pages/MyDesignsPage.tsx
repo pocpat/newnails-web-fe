@@ -6,6 +6,10 @@ import { MdFavorite } from "react-icons/md";
 import { BiSolidTimeFive } from "react-icons/bi";
 import { Colors } from "../lib/colors";
 
+import { useFullScreenImage } from '../hooks/useFullScreenImage';
+import FullScreenImageModal from '../components/FullScreenImageModal';
+
+
 interface Design {
   id: string;
   imageUrl: string;
@@ -27,6 +31,8 @@ const MyDesignsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"recent" | "favorites">("recent");
+
+  const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage();
 
   useEffect(() => {
     const fetchDesigns = async () => {
@@ -143,7 +149,8 @@ const MyDesignsPage = () => {
                       src={design.imageUrl}
                       alt={design.prompt}
                       style={styles.image}
-                       onClick={() => handleFullScreen(url)}
+                      onClick={() => openFullScreen(design.imageUrl)}
+                     
                     />
                     <div style={styles.cardBody}>
                       <div style={styles.cardBodyOverlay} />
@@ -179,6 +186,10 @@ const MyDesignsPage = () => {
           </div>
         </div>
       </div>
+       <FullScreenImageModal 
+        imageUrl={fullScreenImage} 
+        onClose={closeFullScreen} 
+      />
     </div>
   );
 };

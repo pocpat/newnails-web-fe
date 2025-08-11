@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { saveDesign } from "../lib/api";
-import FullScreenImageModal from "../components/FullScreenImageModal";
 import { ImEnlarge } from "react-icons/im";
 import { GrSave } from "react-icons/gr";
 import { BsFillSave2Fill } from "react-icons/bs";
 import { Colors } from "../lib/colors";
+import { useFullScreenImage } from '../hooks/useFullScreenImage';
+import FullScreenImageModal from '../components/FullScreenImageModal';
+import FixedSizePageLayout from '../components/FixedSizePageLayout';
+
 
 const ResultsPage = () => {
   const location = useLocation();
@@ -35,18 +38,15 @@ const ResultsPage = () => {
     }
   };
 
-  const handleFullScreen = (imageUrl: string) => {
-    setSelectedImageUrl(imageUrl);
-    setIsModalVisible(true);
-  };
+
 
   if (!generatedImages || generatedImages.length === 0) {
     return <div>No images generated. Please go back and try again.</div>;
   }
-
+const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage();
   return (
-    <div >
-      <div style={styles.pageContainer}>
+    <div style={styles.outerContainer}>
+          <div style={styles.pageContainer}>
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
             <h1 style={styles.title}>Generated Designs</h1>
@@ -60,13 +60,13 @@ const ResultsPage = () => {
                     src={url}
                     alt={`Generated design ${index + 1}`}
                     style={styles.image}
-                     onClick={() => handleFullScreen(url)}
+                     onClick={() => openFullScreen(url)} 
                   />
                   <div style={styles.cardBody}>
                     <div style={styles.cardBodyOverlay} />
                     <div style={styles.buttonWrapper}>
                       <button
-                        onClick={() => handleFullScreen(url)}
+                       onClick={() => openFullScreen(url)} 
                         style={styles.iconButton}
                       >
                         <ImEnlarge />
@@ -89,37 +89,38 @@ const ResultsPage = () => {
                 </div>
               ))}
             </div>
-            <FullScreenImageModal
-              isVisible={isModalVisible}
-              imageUrl={selectedImageUrl}
-              onClose={() => setIsModalVisible(false)}
-            />
+            <FullScreenImageModal 
+        imageUrl={fullScreenImage} 
+        onClose={closeFullScreen} 
+      />
           </div>
         </div>
-      </div>
     </div>
+     </div>
   );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
   outerContainer: {
-    width: "100%",
-    minHeight: "calc(100vh - 70px)",
-    backgroundColor: "#FFFFFF",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pageContainer: {
-    display: "flex",
-    width: "100%",
-    height: "1080px",
-    fontFamily: "sans-serif",
-    boxShadow: "0 0px 20px #5f2461",
-    transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
-    transformOrigin: "top center",
-    overflow: "hidden",
-  },
+      width: "100%",
+      minHeight: "calc(95vh - 70px)", // Adjust height to account for header
+      backgroundColor: "#FFFFFF", // Changed to white to remove the gray background
+      display: "flex",
+      flexDirection: "column" as "column",
+      justifyContent: "space-between", //new
+    },
+    pageContainer: {
+      display: "flex",
+      width: "100%",
+      height: "1080px",
+      fontFamily: "sans-serif",
+      boxShadow: "0 0px 20px #5f2461",
+      transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
+      transformOrigin: "center center",
+      overflow: "hidden", // Hide anything that might stick out
+      flex: 1,
+    },
+
   centeredContent: {
     flex: 1,
     display: "flex",
@@ -127,6 +128,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     alignItems: "center",
     width: "100%",
     padding: "0 2rem",
+    overflow: "hidden",
   },
   headerCircle: {
     width: "120%",
@@ -160,8 +162,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     paddingTop: "2rem",
   },
   grid: {
+    marginTop: "5rem",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
     gap: "2rem",
     width: "100%",
     maxWidth: "1000px",

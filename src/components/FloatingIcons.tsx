@@ -35,7 +35,7 @@ const FloatingIcons = ({ isVisible = true }: { isVisible?: boolean }) => {
         <motion.div
           style={styles.container}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
+          animate={{ opacity: 0.9 }}
           exit={{ opacity: 0 }}
         >
           {icons.map((icon) => (
@@ -73,7 +73,7 @@ const AnimatedIcon = ({
     y.set(dy);
   });
 
-  const twinkle = useTransform(x, [-radius, 0, radius], [0.5, 1, 0.5]);
+  const twinkle = useTransform(x, [-radius, 0, radius], [0.5, 1, 0.6]);
   const scale = useTransform(x, [-radius, 0, radius], [0.5, 0.8, 0.8]);
 
   return (

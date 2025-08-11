@@ -1,25 +1,38 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface FullScreenImageModalProps {
-  isVisible: boolean;
-  imageUrl: string;
+  imageUrl: string | null;
   onClose: () => void;
 }
 
-const FullScreenImageModal: React.FC<FullScreenImageModalProps> = ({ isVisible, imageUrl, onClose }) => {
-  if (!isVisible) {
-    return null;
-  }
-
+const FullScreenImageModal: React.FC<FullScreenImageModalProps> = ({ imageUrl, onClose }) => {
   return (
-    <div style={styles.overlay} onClick={onClose} role="dialog">
-      <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button style={styles.closeButton} onClick={onClose} aria-label="close">
-          &times;
-        </button>
-        <img src={imageUrl} alt="Full screen view" style={styles.image} />
-      </div>
-    </div>
+    <AnimatePresence>
+      {imageUrl && (
+        <motion.div
+          style={styles.overlay}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose} // Allow clicking the background to close
+        >
+          <motion.img
+            src={imageUrl}
+            style={styles.fullScreenImage}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            onClick={(e) => e.stopPropagation()} // Prevent image click from closing modal
+            alt="Full screen view of a generated nail design"
+          />
+          <button style={styles.closeButton} onClick={onClose} aria-label="Close full screen image">
+            &times;
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -28,35 +41,37 @@ const styles: { [key: string]: React.CSSProperties } = {
     position: 'fixed',
     top: 0,
     left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
+    zIndex: 2000,
   },
-  modalContent: {
-    position: 'relative',
-    padding: '20px',
-    background: 'white',
+  fullScreenImage: {
+    maxWidth: '90vw',
+    maxHeight: '90vh',
+    objectFit: 'contain',
     borderRadius: '8px',
-    width: '75vw',
-    height: '75vh',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
   },
   closeButton: {
     position: 'absolute',
-    top: '10px',
-    right: '15px',
-    background: 'none',
-    border: 'none',
+    top: '20px',
+    right: '20px',
+    background: 'rgba(255, 255, 255, 0.1)',
+    border: '1px solid rgba(255, 255, 255, 0.2)',
+    borderRadius: '50%',
+    width: '44px',
+    height: '44px',
+    color: 'white',
     fontSize: '2rem',
     cursor: 'pointer',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'contain',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    lineHeight: '1',
   },
 };
 

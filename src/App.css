@@ -9,12 +9,13 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  color:#2EC4B6;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #2EC4B6);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #63f7e8);
 }
 
 .blurred {

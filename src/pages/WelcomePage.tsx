@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { Colors } from '../lib/colors';
 import React, { useState } from 'react';
+import FixedSizePageLayout from '../../src/components/FixedSizePageLayout';
 
   import { signOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
@@ -183,6 +184,7 @@ const WelcomePage = () => {
 const handleLogout = async () => {
   try {
     await signOut(auth);
+   // navigate('/');
   } catch (error) {
     console.error('Logout failed:', error);
   }
@@ -208,7 +210,6 @@ const handleLogout = async () => {
     <>
       {/* This injects our CSS into the page. */}
       <style>{styles}</style>
-      
       <div className={`welcome-container `}>
         <div className="left-pane">
           <img src="/hero-img.png" alt="Floral nail art design" className="hero-image" />
