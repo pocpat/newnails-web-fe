@@ -164,7 +164,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   grid: {
     marginTop: "5rem",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
     gap: "2rem",
     width: "100%",
     maxWidth: "1000px",
@@ -179,7 +179,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   image: {
     width: "100%",
-    height: "250px",
+    height: "300px",
     objectFit: "cover",
     display: "block",
     background: "#f0f0f0",
