@@ -24,6 +24,8 @@ import abstract from "../../src/assets/images/style_abstract.svg";
 import dots from "../../src/assets/images/style_dots.svg";
 import glitter from "../../src/assets/images/style_glitter.png";
 import LoadingPage from "../../src/pages/LoadingPage";
+import FixedSizePageLayout from '../../src/components/FixedSizePageLayout';
+
 
 // --- Constants ---
 const IMAGE_GENERATION_MODELS = [
@@ -265,7 +267,8 @@ const DesignFormPage = () => {
     selections.baseColor
   );
   return (
-    <div style={styles.outerContainer}>
+     <FixedSizePageLayout>
+
       <div style={styles.pageContainer}>
         <div style={styles.leftPanel}>
           <img
@@ -317,8 +320,9 @@ const DesignFormPage = () => {
           onSelectColor={handleColorConfirm}
           onClose={() => setColorPickerVisible(false)}
         />
-      </div>
+     
     </div>
+    </FixedSizePageLayout>
   );
 };
 

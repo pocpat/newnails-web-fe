@@ -7,6 +7,7 @@ import { BsFillSave2Fill } from "react-icons/bs";
 import { Colors } from "../lib/colors";
 import { useFullScreenImage } from '../hooks/useFullScreenImage';
 import FullScreenImageModal from '../components/FullScreenImageModal';
+import FixedSizePageLayout from '../components/FixedSizePageLayout';
 
 
 const ResultsPage = () => {
@@ -44,8 +45,8 @@ const ResultsPage = () => {
   }
 const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage();
   return (
-    <div >
-      <div style={styles.pageContainer}>
+     <FixedSizePageLayout>
+   
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
             <h1 style={styles.title}>Generated Designs</h1>
@@ -94,30 +95,14 @@ const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage(
       />
           </div>
         </div>
-      </div>
-    </div>
+    
+     </FixedSizePageLayout>
   );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
-  outerContainer: {
-    width: "100%",
-    minHeight: "calc(100vh - 70px)",
-    backgroundColor: "#FFFFFF",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pageContainer: {
-    display: "flex",
-    width: "100%",
-    height: "1080px",
-    fontFamily: "sans-serif",
-    boxShadow: "0 0px 20px #5f2461",
-    transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
-    transformOrigin: "top center",
-    overflow: "hidden",
-  },
+
+ 
   centeredContent: {
     flex: 1,
     display: "flex",

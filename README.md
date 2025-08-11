@@ -1,70 +1,70 @@
-# React + TypeScript + Vite
+# 💅 Tipsy: The AI Nail Art Studio (Web App)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the web version of the **Tipsy** design studio. This project is a modern, single-page React application that provides a desktop-friendly interface for generating AI nail art.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### ✨ Core Technologies
 
-## Expanding the ESLint configuration
+-   **Framework**: ⚛️ React (with Vite)
+-   **Language**: 🔵 TypeScript
+-   **Styling**: 🎨 Custom CSS-in-JS & CSS Modules
+-   **Routing**: 🧭 React Router
+-   **Authentication**: 🔥 Firebase Authentication
+-   **Animations**: ✨ Framer Motion
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🚀 Key Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+-   **Step-by-Step UI**: A guided, sequential interface that walks the user through the design process one step at a time.
+-   **Interactive Animations**: Smooth page and element transitions powered by Framer Motion.
+-   **Engaging Loading State**: Features the same floating star animations and fun facts as the mobile app to keep users engaged while waiting.
+-   **Real-time Previews**: (If applicable) Shows selections as they are made.
+-   **Responsive Design**: A clean layout that works on various screen sizes.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 🛠️ Setup & Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd newnails-web-fe
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Set up environment variables:**
+    -   Create a `.env` file in the root directory.
+    -   Add the following required variables:
+        ```env
+        # The public URL of your deployed backend API
+        VITE_API_BASE_URL="http://localhost:3000"
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# newnails-web-fe
+        # Your Firebase project's public web API key
+        VITE_FIREBASE_API_KEY="..."
+        VITE_FIREBASE_AUTH_DOMAIN="..."
+        VITE_FIREBASE_PROJECT_ID="..."
+        VITE_FIREBASE_STORAGE_BUCKET="..."
+        VITE_FIREBASE_MESSAGING_SENDER_ID="..."
+        VITE_FIREBASE_APP_ID="..."
+        ```
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    The application will be available at `http://localhost:5173` (or another port if 5173 is busy).
+
+---
+
+### 🖼️ Screenshots
+
+*(Placeholders for screenshots of the web application's interface)*
+
+`[----------------------------------]`
+
+`[      Web Application Screenshot    ]`
+
+`[----------------------------------]`
