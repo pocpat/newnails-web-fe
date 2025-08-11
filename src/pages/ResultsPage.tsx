@@ -45,8 +45,8 @@ const ResultsPage = () => {
   }
 const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage();
   return (
-     <FixedSizePageLayout>
-   
+    <div style={styles.outerContainer}>
+          <div style={styles.pageContainer}>
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
             <h1 style={styles.title}>Generated Designs</h1>
@@ -95,14 +95,32 @@ const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage(
       />
           </div>
         </div>
-    
-     </FixedSizePageLayout>
+    </div>
+     </div>
   );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {
+  outerContainer: {
+      width: "100%",
+      minHeight: "calc(95vh - 70px)", // Adjust height to account for header
+      backgroundColor: "#FFFFFF", // Changed to white to remove the gray background
+      display: "flex",
+      flexDirection: "column" as "column",
+      justifyContent: "space-between", //new
+    },
+    pageContainer: {
+      display: "flex",
+      width: "100%",
+      height: "1080px",
+      fontFamily: "sans-serif",
+      boxShadow: "0 0px 20px #5f2461",
+      transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
+      transformOrigin: "center center",
+      overflow: "hidden", // Hide anything that might stick out
+      flex: 1,
+    },
 
- 
   centeredContent: {
     flex: 1,
     display: "flex",
@@ -110,6 +128,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     alignItems: "center",
     width: "100%",
     padding: "0 2rem",
+    overflow: "hidden",
   },
   headerCircle: {
     width: "120%",
@@ -143,8 +162,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     paddingTop: "2rem",
   },
   grid: {
+    marginTop: "5rem",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
     gap: "2rem",
     width: "100%",
     maxWidth: "1000px",

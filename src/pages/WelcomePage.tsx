@@ -210,7 +210,6 @@ const handleLogout = async () => {
     <>
       {/* This injects our CSS into the page. */}
       <style>{styles}</style>
-      <FixedSizePageLayout>
       <div className={`welcome-container `}>
         <div className="left-pane">
           <img src="/hero-img.png" alt="Floral nail art design" className="hero-image" />
@@ -261,7 +260,6 @@ const handleLogout = async () => {
 
   </div>
   </div>
-  </FixedSizePageLayout>
     </>
   );
 };

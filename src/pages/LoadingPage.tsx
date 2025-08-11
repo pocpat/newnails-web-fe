@@ -49,39 +49,37 @@ const LoadingPage = () => {
   return (
     <>
       <style>{gradientAnimation}</style>
-      <div>
+    
         <div style={styles.pageContainer}>
-          <FloatingIcons isVisible={true}  />
-          <div style={styles.centeredContent}>
-            <div style={styles.headerCircle}>
-              <h1 style={styles.title}>Generating your designs...</h1>
-            </div>
-
-            <div style={styles.subtitleContainer}>
-              <p style={styles.subtitle}>
-                Please wait, this can take a moment.
-              </p>
-            </div>
-
-            <div style={styles.funFactWrapper}>
-              <div style={styles.funFactContainer}>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={funFact}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5 }}
-                    style={styles.funFact}
-                  >
-                    {error || funFact}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
+      <FloatingIcons isVisible={true} />
+      {/* The decorative circle is now absolutely positioned */}
+      <div style={styles.headerCircle}></div>
+      
+      <div style={styles.centeredContent}>
+        <h1 style={styles.title}>Generating your designs...</h1>
+        <div style={styles.subtitleContainer}>
+          <p style={styles.subtitle}>
+            Please wait, this can take a moment.
+          </p>
+        </div>
+        <div style={styles.funFactWrapper}>
+          <div style={styles.funFactContainer}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={funFact || error}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                style={styles.funFact}
+              >
+                {error || funFact}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 };
@@ -97,66 +95,68 @@ const styles: { [key: string]: React.CSSProperties } = {
     alignItems: "center",
   },
   pageContainer: {
+  flexGrow: 1, // Make pageContainer fill the mainContent area
     display: "flex",
-    width: "100%",
-    height: "1080px",
     fontFamily: "sans-serif",
-    boxShadow: "0 0px 20px #5f2461",
-    transform: "scale(calc(min(100vh / 1080, 100vw / 1920)))",
-    transformOrigin: "top center",
-    overflow: "hidden",
-    position: "relative",
-    backgroundColor: Colors.white, 
-  },
-  centeredContent: {
+    position: "relative", // Needed for the absolute positioned circle
+    overflow: "hidden", // Hide parts of the circle that go off-screen
+    backgroundColor: Colors.white,
+    width: "100%",  },
+
+ centeredContent: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    height: "100%",
-    zIndex: 1,
+    zIndex: 1, // Ensure content is above the circle
+    padding: '2rem', // Add some padding
+    justifyContent: 'space-between', // Distribute space
   },
+  
   headerCircle: {
-    width: "110%",
-    height: "50%",
-background: `linear-gradient(to bottom, ${Colors.darkCherry} 0%, ${Colors.darkCherry} 10%, transparent 100%)`,
-    borderRadius: "0 0 900px 900px ", 
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: "10%",
-    position: "relative",
-    
-    top: "-30%",
-   boxShadow: "2 0 20px rgba(0,0,0,0.1)",
-    flexShrink: 0,
+   // 1. Use a large, fixed width. 2000px is big enough for almost any screen.
+    width: "2000px",
+    // 2. The height must be the same as the width to maintain a circle.
+    height: "2000px",
+    // 3. Use a fixed negative value for 'top' to control how much is visible.
+    // Logic: -(height - desiredVisibleHeight). e.g., -(2000px - 300px) = -1700px.
+    top: "-1700px",
+background: `linear-gradient(to bottom, ${Colors.darkCherry} 70%, ${Colors.darkCherry} 60%, transparent 100%)`,    borderRadius: "50%",
+    position: "absolute",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 0,
+    filter: "blur(20px)",
   },
-  title: {
+ title: {
     fontFamily: "PottaOne, sans-serif",
-    fontSize: "3rem",
-    color: Colors.darkCherry,
+    fontSize: "clamp(2rem, 5vw, 3rem)", // Responsive font size
+    color: Colors.darkCherry, // Changed to white to be visible on the circle
     textAlign: "center",
-    position: "relative",
-    top: "30px",
+    marginTop: '2%', // Push title down a bit
+    marginBottom: '10%',
   },
   subtitleContainer: {
-    marginTop: "-20%",
-    textAlign: "center" as "center",
+    textAlign: "center",
+    // Removed negative margin
   },
   subtitle: {
     fontFamily: "Inter, sans-serif",
-    fontSize: "1.5rem",
+    fontSize: "clamp(1rem, 3vw, 1.5rem)", // Responsive font size
     fontWeight: "500",
     color: Colors.greyAzure,
     margin: 0,
+    marginTop: '1rem',
   },
-  funFactWrapper: {
-    flex: 1,
+  
+ funFactWrapper: {
+    flex: 1, // Let this take up remaining space, pushing it down
     width: "100%",
     display: "flex",
-    alignItems: "center",
+    alignItems: "center", // Center vertically in its available space
     justifyContent: "center",
+    paddingBottom: '5%', // Add some space from the bottom
   },
   funFactContainer: {
     height: "120px",
@@ -169,8 +169,7 @@ background: `linear-gradient(to bottom, ${Colors.darkCherry} 0%, ${Colors.darkCh
   },
   funFact: {
     fontFamily: "PottaOne, sans-serif",
-    fontSize: "2.5rem",
+    fontSize: "clamp(1.5rem, 4vw, 2.5rem)", // Responsive font size
     color: Colors.greyAzure,
     textAlign: "center" as "center",
-  },
-};
+  },};
