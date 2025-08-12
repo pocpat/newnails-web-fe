@@ -65,6 +65,10 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
 
 `[----------------------------------]`
 
-`[      Web Application Screenshot    ]`
+![Landing Page](public/screenshots/WEB_01_s.png)
+![Design Step](public/screenshots/WEB_02_s.png)
+![Loading Step](public/screenshots/WEB_03_s.png)
+![Generated Art](public/screenshots/WEB_04_s.png)
+![Saved Favorits](public/screenshots/WEB_05_s.png)
 
 `[----------------------------------]`

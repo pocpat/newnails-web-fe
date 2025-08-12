@@ -102,14 +102,40 @@ const DesignFormPage = () => {
             num_images: 1,
             width: 1024,
             height: 1024,
+          }).catch(error => {
+            console.error(`Error generating with model ${model}:`, error);
+            // Check if the error response indicates a rate limit
+            if (error.response && error.response.data && error.response.data.limitReached) {
+              return error.response.data; // Return the whole error payload
+            }
+            return null; // For other errors, return null
           })
         )
       );
 
-      const imageUrls = results.flatMap((result) => result.imageUrls);
+      // Check if the rate limit was hit for any of the models
+      const limitHitResult = results.find(r => r && r.limitReached);
+
+      if (limitHitResult) {
+        alert(limitHitResult.message); // Show alert
+        navigate("/results", {
+          state: {
+            generatedImages: limitHitResult.imageUrls, // Placeholder URL
+            limitReached: true, // Pass the flag
+          },
+        });
+        return true; // Indicate success to prevent re-triggering
+      }
+
+      const imageUrls = results
+        .filter(r => r && r.imageUrls)
+        .flatMap((result) => result.imageUrls);
+
+      if (imageUrls.length === 0) {
+        throw new Error("All image generation models failed. Please try again later.");
+      }
 
       // 3. Navigate to the results page.
-      // The prompt is no longer needed here as it's built on the backend.
       navigate("/results", {
         state: { generatedImages: imageUrls },
       });

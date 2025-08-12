@@ -12,9 +12,10 @@ import FixedSizePageLayout from '../components/FixedSizePageLayout';
 
 const ResultsPage = () => {
   const location = useLocation();
-  const { generatedImages, prompt } = location.state || {
+  const { generatedImages, prompt, limitReached } = location.state || {
     generatedImages: [],
     prompt: "",
+    limitReached: false,
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -49,7 +50,7 @@ const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage(
           <div style={styles.pageContainer}>
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
-            <h1 style={styles.title}>Generated Designs</h1>
+            <h1 style={styles.title}>{limitReached ? 'Daily Limit Reached' : 'Generated Designs'}</h1>
           </div>
 
           <div style={styles.bottomContent}>
@@ -73,7 +74,7 @@ const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage(
                       </button>
                       <button
                         onClick={() => handleSave(url)}
-                        disabled={savedImages.includes(url) || saving === url}
+                        disabled={limitReached || savedImages.includes(url) || saving === url}
                         style={styles.iconButton}
                       >
                         {savedImages.includes(url) ? (
@@ -164,7 +165,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   grid: {
     marginTop: "5rem",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
     gap: "2rem",
     width: "100%",
     maxWidth: "1000px",
@@ -179,7 +180,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   image: {
     width: "100%",
-    height: "250px",
+    height: "300px",
     objectFit: "cover",
     display: "block",
     background: "#f0f0f0",
