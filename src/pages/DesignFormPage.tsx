@@ -23,6 +23,12 @@ import ombre from "../../src/assets/images/style_ombre.svg";
 import abstract from "../../src/assets/images/style_abstract.svg";
 import dots from "../../src/assets/images/style_dots.svg";
 import glitter from "../../src/assets/images/style_glitter.png";
+import colorSelect from "../../src/assets/images/color_select.svg";
+import colorMono from "../../src/assets/images/color_mono.svg";
+import colorAnalog from "../../src/assets/images/color_analog.svg";
+import colorComplim from "../../src/assets/images/color_complim.svg";
+import colorTriad from "../../src/assets/images/color_triad.svg";
+import colorTetra from "../../src/assets/images/color_tetra.svg";
 import LoadingPage from "../../src/pages/LoadingPage";
 
 // --- Constants ---
@@ -59,13 +65,13 @@ const styleOptions = [
 const colorConfigOptions = [
   {
     value: "Pick a Base Color",
-    icon: "../../src/assets/images/color_select.svg",
+    icon: colorSelect,
   },
-  { value: "unified", icon: "../../src/assets/images/color_mono.svg" },
-  { value: "harmonious", icon: "../../src/assets/images/color_analog.svg" },
-  { value: "contrast", icon: "../../src/assets/images/color_complim.svg" },
-  { value: "balanced", icon: "../../src/assets/images/color_triad.svg" },
-  { value: "rich", icon: "../../src/assets/images/color_tetra.svg" },
+  { value: "unified", icon: colorMono },
+  { value: "harmonious", icon: colorAnalog },
+  { value: "contrast", icon: colorComplim },
+  { value: "balanced", icon: colorTriad },
+  { value: "rich", icon: colorTetra },
 ];
 
 const steps = [
@@ -303,7 +309,7 @@ const DesignFormPage = () => {
     <div style={styles.pageContainer}>
       <div style={styles.leftPanel}>
         <img
-          src="../../src/assets/images/hero-img.png"
+          src="/hero-img.png"
           alt="Nail Art"
           style={styles.heroImage}
         />
