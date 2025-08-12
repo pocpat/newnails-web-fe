@@ -12,9 +12,10 @@ import FixedSizePageLayout from '../components/FixedSizePageLayout';
 
 const ResultsPage = () => {
   const location = useLocation();
-  const { generatedImages, prompt } = location.state || {
+  const { generatedImages, prompt, limitReached } = location.state || {
     generatedImages: [],
     prompt: "",
+    limitReached: false,
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -49,7 +50,7 @@ const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage(
           <div style={styles.pageContainer}>
         <div style={styles.centeredContent}>
           <div style={styles.headerCircle}>
-            <h1 style={styles.title}>Generated Designs</h1>
+            <h1 style={styles.title}>{limitReached ? 'Daily Limit Reached' : 'Generated Designs'}</h1>
           </div>
 
           <div style={styles.bottomContent}>
@@ -73,7 +74,7 @@ const { fullScreenImage, openFullScreen, closeFullScreen } = useFullScreenImage(
                       </button>
                       <button
                         onClick={() => handleSave(url)}
-                        disabled={savedImages.includes(url) || saving === url}
+                        disabled={limitReached || savedImages.includes(url) || saving === url}
                         style={styles.iconButton}
                       >
                         {savedImages.includes(url) ? (
