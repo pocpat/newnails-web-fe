@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { vi } from 'vitest';
 import Header from './Header';
-import { AuthProvider } from '../lib/auth';
 
 // Mock the useAuth hook for Vitest
 vi.mock('../lib/auth', () => ({

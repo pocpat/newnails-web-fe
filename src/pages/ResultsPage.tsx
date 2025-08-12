@@ -7,7 +7,6 @@ import { BsFillSave2Fill } from "react-icons/bs";
 import { Colors } from "../lib/colors";
 import { useFullScreenImage } from '../hooks/useFullScreenImage';
 import FullScreenImageModal from '../components/FullScreenImageModal';
-import FixedSizePageLayout from '../components/FixedSizePageLayout';
 
 
 const ResultsPage = () => {
@@ -18,8 +17,8 @@ const ResultsPage = () => {
     limitReached: false,
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedImageUrl, setSelectedImageUrl] = useState("");
+  //const [isModalVisible, setIsModalVisible] = useState(false);
+  //const [selectedImageUrl, setSelectedImageUrl] = useState("");
   const [savedImages, setSavedImages] = useState<string[]>([]);
   const [saving, setSaving] = useState<string | null>(null);
 

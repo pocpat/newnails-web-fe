@@ -1,10 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth';
 import { Colors } from '../lib/colors';
-import React, { useState } from 'react';
-import FixedSizePageLayout from '../../src/components/FixedSizePageLayout';
-
-  import { signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useLoginModal } from '../lib/LoginModalContext'; 
 // It's good practice to define styles in a separate object or file.

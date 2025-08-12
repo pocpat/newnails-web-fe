@@ -24,7 +24,6 @@ import abstract from "../../src/assets/images/style_abstract.svg";
 import dots from "../../src/assets/images/style_dots.svg";
 import glitter from "../../src/assets/images/style_glitter.png";
 import LoadingPage from "../../src/pages/LoadingPage";
-import FixedSizePageLayout from "../../src/components/FixedSizePageLayout";
 
 // --- Constants ---
 const IMAGE_GENERATION_MODELS = [

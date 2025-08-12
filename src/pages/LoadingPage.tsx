@@ -3,7 +3,6 @@ import { fetchRandomFunFact } from "../lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { Colors } from "../lib/colors";
 import FloatingIcons from "../components/FloatingIcons";
-import { FaSnowflake } from "react-icons/fa";
 
 const LoadingPage = () => {
   const [funFact, setFunFact] = useState("");
