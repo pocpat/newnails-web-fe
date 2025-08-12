@@ -69,6 +69,8 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
 <img src="public/screenshots/WEB_01_s.png" alt="Landing Page" width="300"/>
 **Design Step**
 <img src="public/screenshots/WEB_02_s.png" alt="Landing Page" width="300"/>
+**Design Step**
+<img src="public/screenshots/WEB_02a_s.png" alt="Landing Page" width="300"/>
 **Loading Step**
 <img src="public/screenshots/WEB_03_s.png" alt="Landing Page" width="300"/>
 **Generated Art**
