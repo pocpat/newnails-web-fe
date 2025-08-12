@@ -1,12 +1,15 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+
 interface FullScreenImageModalProps {
   imageUrl: string | null;
   onClose: () => void;
 }
 
 const FullScreenImageModal: React.FC<FullScreenImageModalProps> = ({ imageUrl, onClose }) => {
+  
+
   return (
     <AnimatePresence>
       {imageUrl && (

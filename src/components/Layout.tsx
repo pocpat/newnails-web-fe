@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Layout.css'; 
 import Header from './Header';
 import LoginModal from '../pages/LoginModal';
