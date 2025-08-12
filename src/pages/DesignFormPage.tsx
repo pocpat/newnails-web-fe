@@ -132,17 +132,21 @@ const DesignFormPage = () => {
         return true; // Indicate success to prevent re-triggering
       }
 
-      const imageUrls = results
-        .filter(r => r && r.imageUrls)
-        .flatMap((result) => result.imageUrls);
+      const validResults = results.filter(r => r && r.imageUrls && r.prompt);
 
-      if (imageUrls.length === 0) {
-        throw new Error("All image generation models failed. Please try again later.");
+      if (validResults.length === 0) {
+        throw new Error("All image generation models failed or returned invalid data. Please try again later.");
       }
 
-      // 3. Navigate to the results page.
+      const imageUrls = validResults.flatMap((result) => result.imageUrls);
+      const prompt = validResults[0].prompt; // Get prompt from the first valid result
+
+      // 3. Navigate to the results page with images and the prompt.
       navigate("/results", {
-        state: { generatedImages: imageUrls },
+        state: { 
+          generatedImages: imageUrls,
+          prompt: prompt 
+        },
       });
 
       return true;
