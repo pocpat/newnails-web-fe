@@ -61,12 +61,9 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
 
 ### 🖼️ Screenshots
 
-
-*(`[------------------------------------------------------------]`)*
+*( screenshots of the web application's interface)*
 
 `[---------------------------------------------------------------]`
-
-
 
 **Landing Page**
 <img src="public/screenshots/WEB_01_s.png" alt="Landing Page" width="300"/>
