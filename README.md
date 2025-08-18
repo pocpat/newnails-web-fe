@@ -63,6 +63,7 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
 
 
 `[---------------------------------------------------------------]`
+<br>
 `[---------------------------------------------------------------]`
 
 **Landing Page**
