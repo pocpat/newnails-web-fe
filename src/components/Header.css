@@ -32,8 +32,8 @@
  
 }
 .header-logo-svg {
-  height: 30px;
-  width: auto;
+  height: 35px;
+  width: 120;
   fill: #2EC4B6; 
   /* You can also add hover effects! */
   transition: fill 0.2s ease;

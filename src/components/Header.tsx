@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './Header.css';
 import { Colors } from '../lib/colors';
 import { useLoginModal } from '../lib/LoginModalContext';
-import LogoSvg from '../assets/images/logo02.svg?react';
+import LogoSvg from '../assets/images/nIcon2.svg?react';
 
 
 
