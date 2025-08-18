@@ -61,22 +61,30 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
 
 ### 🖼️ Screenshots
 
-*( screenshots of the web application's interface)*
-
-`[---------------------------------------------------------------]`
-
-**Landing Page**
-<img src="public/screenshots/WEB_01_s.png" alt="Landing Page" width="300"/>
-**Design Step**
-<img src="public/screenshots/WEB_02_s.png" alt="Landing Page" width="300"/>
-**Design Step**
-<img src="public/screenshots/WEB_02a_s.png" alt="Landing Page" width="300"/>
-**Loading Step**
-<img src="public/screenshots/WEB_03_s.png" alt="Landing Page" width="300"/>
-**Generated Art**
-<img src="public/screenshots/WEB_04_s.png" alt="Landing Page" width="300"/>
-**Saved Favorits**
-<img src="public/screenshots/WEB_05_s.png" alt="Landing Page" width="300"/>
+<table>
+  <tr>
+    <td align="center"><b>Landing Page</b><br>
+      <img src="public/screenshots/WEB_01_s.png" alt="Landing Page" width="200"/>
+    </td>
+    <td align="center"><b>Design Step</b><br>
+      <img src="public/screenshots/WEB_02_s.png" alt="Design Step" width="200"/>
+    </td>
+    <td align="center"><b>Design Step</b><br>
+      <img src="public/screenshots/WEB_02a_s.png" alt="Design Step 2" width="200"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><b>Loading Step</b><br>
+      <img src="public/screenshots/WEB_03_s.png" alt="Loading Step" width="200"/>
+    </td>
+    <td align="center"><b>Generated Art</b><br>
+      <img src="public/screenshots/WEB_04_s.png" alt="Generated Art" width="200"/>
+    </td>
+    <td align="center"><b>Saved Favorites</b><br>
+      <img src="public/screenshots/WEB_05_s.png" alt="Saved Favorites" width="200"/>
+    </td>
+  </tr>
+</table>
 
 
 `[---------------------------------------------------------------]`
