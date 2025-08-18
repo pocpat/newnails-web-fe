@@ -61,7 +61,6 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
 
 ### 🖼️ Screenshots
 
-*(Placeholders for screenshots of the web application's interface)*
 
 `[---------------------------------------------------------------]`
 
