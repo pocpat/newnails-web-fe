@@ -84,7 +84,6 @@ Welcome to the web version of the **Tipsy** design studio. This project is a mod
       <img src="public/screenshots/WEB_05_s.png" alt="Saved Favorites" width="200"/>
     </td>
   </tr>
+
 </table>
 
-
-`[---------------------------------------------------------------]`
