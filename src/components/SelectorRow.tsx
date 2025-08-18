@@ -82,6 +82,7 @@ const SelectorRow = React.memo(React.forwardRef<HTMLDivElement, SelectorRowProps
       color: Colors.black,
       fontFamily: 'Inter-Variable', // Ensure this font is loaded
       fontSize: '8px',
+      paddingLeft: '10px',      
     },
     selectedOptionText: {
       color: Colors.teal,
@@ -155,7 +156,7 @@ const SelectorRow = React.memo(React.forwardRef<HTMLDivElement, SelectorRowProps
               {Icon ? (
                 <>
                   <div style={styles.optionIcon}>
-                    {/* For now, just display the value as text or an empty div for the icon */}
+                
                     {Icon ? <img src={Icon} alt={value} style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <div style={{ width: '100%', height: '100%' }} />}
                   </div>
                   <span style={{ ...styles.optionText, color: optionTextColor }}>
