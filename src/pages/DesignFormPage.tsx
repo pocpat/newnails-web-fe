@@ -234,17 +234,6 @@ const DesignFormPage = () => {
 
   const currentStep = steps[currentStepIndex];
 
-  const handleModelSelect = (value: string) => {
-    setSelectedModel(value);
-    // Advance to next step or trigger generation
-    if (currentStepIndex >= steps.length - 1) {
-      // This is the last step — trigger generation
-      handleImpressMe(selections);
-    } else {
-      setCurrentStepIndex(currentStepIndex + 1);
-    }
-  };
-
   const styles: { [key: string]: React.CSSProperties } = {
     outerContainer: {
       width: "100%",
