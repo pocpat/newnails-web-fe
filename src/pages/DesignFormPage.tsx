@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ProgressBar from "../../src/components/ProgressBar";
 import SelectionStep from "../../src/components/SelectionStep";
 import ColorPickerModal from "../../src/components/ColorPickerModal";
-import { generateDesigns, fetchAvailableModels } from "../../src/lib/api";
+import { generateDesigns } from "../../src/lib/api";
 import { Colors } from "../../src/lib/colors";
 import short from "../../src/assets/images/length_short.svg";
 import medium from "../../src/assets/images/length_medium.svg";
@@ -67,6 +67,13 @@ const colorConfigOptions = [
   { value: "rich", icon: colorTetra },
 ];
 
+const steps = [
+  { id: "length", title: "Nail Length", options: lengthOptions },
+  { id: "shape", title: "Nail Shape", options: shapeOptions },
+  { id: "style", title: "Nail Style", options: styleOptions },
+  { id: "color", title: "Color Palette", options: colorConfigOptions },
+];
+
 // --- Component ---
 const DesignFormPage = () => {
   const navigate = useNavigate();
@@ -77,96 +84,53 @@ const DesignFormPage = () => {
   const [loading, setLoading] = useState(false);
   const [tempColor, setTempColor] = useState("#b3e5fc");
 
-  // Dynamic model list fetched from backend
-  const [availableModels, setAvailableModels] = useState<string[]>([]);
-  const [modelsLoading, setModelsLoading] = useState(true);
-  const [modelsError, setModelsError] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState<string>("");
-
-  // Fetch available free models on mount
-  useEffect(() => {
-    fetchAvailableModels()
-      .then((data: { models: string[] }) => {
-        setAvailableModels(data.models || []);
-        if (data.models && data.models.length > 0) {
-          setSelectedModel(data.models[0]);
-        }
-        setModelsLoading(false);
-      })
-      .catch((err: Error) => {
-        console.error("Failed to fetch available models:", err);
-        setModelsError(err.message);
-        setModelsLoading(false);
-      });
-  }, []);
-
   const handleImpressMe = async (finalSelections: Record<string, string>) => {
     setLoading(true);
     try {
-      // Use all available models (user picks which ones to try)
-      const modelsToUse =
-        availableModels.length > 0
-          ? [selectedModel] // Use the user-selected model
-          : [];
+      console.log("Sending raw selections to backend:", finalSelections);
 
-      if (modelsToUse.length === 0) {
+      // Send selections to backend — backend picks the models automatically
+      const result = await generateDesigns({
+        ...finalSelections,
+        num_images: 1,
+        width: 1024,
+        height: 1024,
+      }).catch((error: { response?: { data?: { limitReached?: boolean; message?: string; imageUrls?: string[] } } }) => {
+        console.error("Error generating designs:", error);
+        if (error.response && error.response.data && error.response.data.limitReached) {
+          return error.response.data;
+        }
+        return null;
+      });
+
+      if (!result) {
         throw new Error(
-          "No image generation models are currently available. Please try again later."
+          "Image generation failed. No free models are currently available. Please try again later."
         );
       }
 
-      console.log("Sending raw selections to backend:", finalSelections);
-      console.log("Using model:", selectedModel);
-
-      const results = await Promise.all(
-        modelsToUse.map((model) =>
-          generateDesigns({
-            ...finalSelections, // Pass all selections
-            model: model,
-            num_images: 1,
-            width: 1024,
-            height: 1024,
-          }).catch((error: { response?: { data?: { limitReached?: boolean; message?: string; imageUrls?: string[] } } }) => {
-            console.error(`Error generating with model ${model}:`, error);
-            if (error.response && error.response.data && error.response.data.limitReached) {
-              return error.response.data;
-            }
-            return null;
-          })
-        )
-      );
-
       // Check if the rate limit was hit
-      const limitHitResult = results.find(
-        (r) => r && r.limitReached
-      );
-
-      if (limitHitResult) {
-        alert(limitHitResult.message);
+      if (result.limitReached) {
+        alert(result.message);
         navigate("/results", {
           state: {
-            generatedImages: limitHitResult.imageUrls,
+            generatedImages: result.imageUrls,
             limitReached: true,
           },
         });
         return true;
       }
 
-      const validResults = results.filter((r) => r && r.imageUrls && r.prompt);
-
-      if (validResults.length === 0) {
+      if (!result.imageUrls || result.imageUrls.length === 0) {
         throw new Error(
-          "Image generation failed. The selected model may be temporarily unavailable. Try selecting a different model or try again later."
+          "Image generation failed. No images were returned. Please try again later."
         );
       }
 
-      const imageUrls = validResults.flatMap((result) => result.imageUrls);
-      const prompt = validResults[0].prompt;
-
       navigate("/results", {
         state: {
-          generatedImages: imageUrls,
-          prompt: prompt,
+          generatedImages: result.imageUrls,
+          prompt: result.prompt,
         },
       });
 
@@ -213,24 +177,6 @@ const DesignFormPage = () => {
     }));
     setColorPickerVisible(false);
   };
-
-  // Build steps array dynamically — model step is added after color
-  const baseSteps = [
-    { id: "length", title: "Nail Length", options: lengthOptions },
-    { id: "shape", title: "Nail Shape", options: shapeOptions },
-    { id: "style", title: "Nail Style", options: styleOptions },
-    { id: "color", title: "Color Palette", options: colorConfigOptions },
-  ];
-
-  // The model step shows available free models as interactive text buttons
-  const modelStep = {
-    id: "model",
-    title: "Choose an AI Model",
-    options: availableModels.map((m) => ({ value: m, icon: "" })),
-  };
-
-  const steps =
-    availableModels.length > 0 ? [...baseSteps, modelStep] : baseSteps;
 
   const currentStep = steps[currentStepIndex];
 
@@ -331,70 +277,6 @@ const DesignFormPage = () => {
       width: "100%",
       marginBottom: "20px",
     },
-    modelListContainer: {
-      display: "flex",
-      flexWrap: "wrap" as "wrap",
-      justifyContent: "center",
-      gap: "12px",
-      maxWidth: "620px",
-      margin: "0 auto",
-    },
-    modelChip: {
-      padding: "10px 20px",
-      borderRadius: "25px",
-      border: "2px solid #e0e0e0",
-      backgroundColor: "#f9f9f9",
-      cursor: "pointer",
-      fontSize: "0.85rem",
-      fontFamily: "Inter, sans-serif",
-      color: "#555",
-      transition: "all 0.2s ease",
-    },
-    modelChipSelected: {
-      padding: "10px 20px",
-      borderRadius: "25px",
-      border: "2px solid " + Colors.darkCherry,
-      backgroundColor: Colors.darkCherry,
-      cursor: "pointer",
-      fontSize: "0.85rem",
-      fontFamily: "Inter, sans-serif",
-      color: "#fff",
-      transition: "all 0.2s ease",
-    },
-    modelsLoading: {
-      textAlign: "center" as "center",
-      padding: "40px",
-      fontFamily: "Inter, sans-serif",
-      color: "#999",
-    },
-    modelsError: {
-      textAlign: "center" as "center",
-      padding: "40px",
-      fontFamily: "Inter, sans-serif",
-      color: "#cc4444",
-    },
-    generateButton: {
-      marginTop: "30px",
-      padding: "15px 50px",
-      borderRadius: "30px",
-      border: "none",
-      backgroundColor: Colors.darkCherry,
-      color: "#fff",
-      fontSize: "1.2rem",
-      fontFamily: "PottaOne, sans-serif",
-      cursor: "pointer",
-      display: "block",
-      margin: "30px auto 0",
-    },
-    noModelsInfo: {
-      textAlign: "center" as "center",
-      padding: "20px",
-      fontFamily: "Inter, sans-serif",
-      color: "#666",
-      fontSize: "0.9rem",
-      maxWidth: "500px",
-      margin: "0 auto",
-    },
   };
 
   if (loading) {
@@ -438,55 +320,12 @@ const DesignFormPage = () => {
               transition={{ duration: 0.5 }}
               style={{ width: "100%" }}
             >
-              {currentStep.id === "model" ? (
-                <div>
-                  {modelsLoading ? (
-                    <div style={styles.modelsLoading}>
-                      Loading available models...
-                    </div>
-                  ) : modelsError ? (
-                    <div style={styles.modelsError}>
-                      Could not load models: {modelsError}
-                    </div>
-                  ) : availableModels.length === 0 ? (
-                    <div style={styles.noModelsInfo}>
-                      No free image generation models are currently
-                      available on ImageRouter. This is usually
-                      temporary — the backend checks every 2 days.
-                      Please try again later.
-                    </div>
-                  ) : (
-                    <div style={styles.modelListContainer}>
-                      {availableModels.map((model) => (
-                        <div
-                          key={model}
-                          style={
-                            selectedModel === model
-                              ? styles.modelChipSelected
-                              : styles.modelChip
-                          }
-                          onClick={() => setSelectedModel(model)}
-                        >
-                          {model.replace(":free", "").replace(/^[^/]+\//, "")}
-                        </div>
-                      ))}
-                      <button
-                        style={styles.generateButton}
-                        onClick={() => handleImpressMe(selections)}
-                      >
-                        Generate!
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <SelectionStep
-                  options={currentStep.options}
-                  onSelect={handleSelect}
-                  baseColor={selections.baseColor}
-                  stepId={currentStep.id}
-                />
-              )}
+              <SelectionStep
+                options={currentStep.options}
+                onSelect={handleSelect}
+                baseColor={selections.baseColor}
+                stepId={currentStep.id}
+              />
             </motion.div>
           </AnimatePresence>
         </div>

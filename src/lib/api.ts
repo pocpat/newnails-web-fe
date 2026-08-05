@@ -58,7 +58,6 @@ export async function generateDesigns(designOptions: {
   style?: string;
   color?: string; // This is the colorConfig
   baseColor?: string;
-  model: string;
   width?: number;
   height?: number;
   num_images?: number;
