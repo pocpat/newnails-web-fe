@@ -95,12 +95,27 @@ export async function toggleFavorite(designId: string) {
   });
 }
 
-export async function fetchRandomFunFact() {
+export async function fetchAvailableModels() {
   // This endpoint does not require authentication
-  const response = await fetch(`${API_BASE_URL}/api/fun-facts`);
+  const response = await fetch(`${API_BASE_URL}/api/models`);
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ error: 'Invalid JSON response' }));
-    throw new Error(errorData.error || 'Failed to fetch fun fact');
+    throw new Error(errorData.error || 'Failed to fetch available models');
   }
   return response.json();
+}
+
+export async function fetchRandomFunFact(): Promise<{ text?: string; fact?: string } | null> {
+  // This endpoint does not require authentication
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/fun-facts`);
+    if (!response.ok) {
+      console.warn('Fun facts API returned', response.status);
+      return null;
+    }
+    return response.json();
+  } catch (error) {
+    console.warn('Failed to fetch fun fact:', error);
+    return null;
+  }
 }

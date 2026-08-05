@@ -15,8 +15,12 @@ const LoadingPage = () => {
       try {
         const data = await fetchRandomFunFact();
         if (isMounted) {
-          setFunFact(data.text);
-          setError("");
+          if (data) {
+            setFunFact(data.text || data.fact || "");
+            setError("");
+          } else {
+            setError("Could not fetch a fun fact. Waiting for the magic to happen...");
+          }
         }
       } catch (err) {
         if (isMounted) {

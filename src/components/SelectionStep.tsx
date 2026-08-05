@@ -15,9 +15,6 @@ interface SelectionStepProps {
 }
 
 const SelectionStep: React.FC<SelectionStepProps> = ({ options, onSelect, baseColor, stepId }) => {
-  // --- DEBUG LOG ---
-  console.log('SelectionStep received baseColor:', baseColor);
-
   const styles = {
     container: {
       display: 'flex',
